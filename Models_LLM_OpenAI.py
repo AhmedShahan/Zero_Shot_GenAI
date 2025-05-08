@@ -1,3 +1,5 @@
+############ Open AI LLM ############
+
 ## pip install langchain
 import langchain 
 
@@ -19,6 +21,4 @@ llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0.9)
 result = llm.invoke("What is the capital of France?")
 
 print(result)
-
-
 
