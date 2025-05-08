@@ -21,8 +21,4 @@ result = llm.invoke("What is the capital of France?")
 print(result)
 
 
-## pip install langchain-openai
-OpenAI API key from the environment variables
-
-
 
