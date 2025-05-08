@@ -14,9 +14,9 @@ load_dotenv()  # Load the API key
 # Initialize the Gemini model using LangChain
 llm = GoogleGenerativeAI(
     model="gemini-1.5-flash",
-    temperature=0.7
+    temperature=0.5
 )
 
 # Ask a question
-response = llm.invoke("What is the capital of Bangladesh?")
+response = llm.invoke("Write a short story about a cat in a futuristic city.")
 print(response)
