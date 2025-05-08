@@ -22,8 +22,7 @@ print(result)
 
 
 ## pip install langchain-openai
-
-
+OpenAI API key from the environment variables
 
 
 
