@@ -2,7 +2,6 @@
 pip install langchain-cohere cohere
 '''
 
-import cohere
 from dotenv import load_dotenv
 import os
 

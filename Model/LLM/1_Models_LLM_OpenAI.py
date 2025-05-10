@@ -3,8 +3,8 @@
 ## pip install langchain
 import langchain 
 
-## Check the version of langchain
-# print(langchain.__version__)
+# Check the version of langchain
+print(langchain.__version__)
 
 ### LLMS of openAI
 ## First load the 
@@ -18,7 +18,7 @@ load_dotenv()
 llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0.9)
 
 # Call the LLM
-result = llm.invoke("What is the capital of France?")
+result = llm.invoke("What is the capital of Bangladesh?")
 
 print(result)
 

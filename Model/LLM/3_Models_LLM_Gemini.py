@@ -18,5 +18,5 @@ llm = GoogleGenerativeAI(
 )
 
 # Ask a question
-response = llm.invoke("Write a short story about a cat in a futuristic city.")
+response = llm.invoke("wHAT IS THE CAPITAL OF bANGLADESH? ")
 print(response)
