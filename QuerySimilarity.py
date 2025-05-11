@@ -40,10 +40,26 @@ from sklearn.metrics.pairwise import cosine_similarity
 # y= Document Embedding, Already 2D array tei ache. 
 
 score=cosine_similarity([QueryEmbed],DocumentEmbed)
-print(score)
+# print(score)
 
 '''
 Returns 2D So make it 1D
 '''
-score=cosine_similarity([QueryEmbed],DocumentEmbed)
-print(score[0])
+score1D=score[0]
+print(score1D)
+print(type(score1D))
+
+### এবার আমরা চাচ্ছি সবচেয়ে কম স্কোর এর information দেখতে। তাহলে প্রথএম সর্ট কওরা লাগবে। তার আগে আমরা প্রতিটা score এর corrosponding index number dei. 
+
+indexed_score=list(enumerate(score1D))
+
+print("Indexed: ",indexed_score)
+
+sorted_arr = sorted(indexed_score, key=lambda x: x[1])
+
+print("Sorted Array\n",sorted_arr)
+
+
+
+
+
