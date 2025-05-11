@@ -1,7 +1,7 @@
-from langchain_ollama import Ollama
+from langchain_ollama import ChatOllama
 
-llm = Ollama(model="deepkeek-r1-14b")
+llm = ChatOllama(model="deepseek-r1:1.5b")
 
 response = llm.invoke("What is the capital of Bangladesh?")
 
-print(response)
+print(response.content)
