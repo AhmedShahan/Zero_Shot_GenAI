@@ -19,7 +19,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 embedding=HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 DocumentEmbed=embedding.embed_documents(documents)
 
-Query="Tell Me about Sakib Al Hasan"
+Query="Tell Me about left-arm pacer"
 
 QueryEmbed=embedding.embed_query(text=Query)
 
@@ -46,8 +46,8 @@ score=cosine_similarity([QueryEmbed],DocumentEmbed)
 Returns 2D So make it 1D
 '''
 score1D=score[0]
-print(score1D)
-print(type(score1D))
+# print(score1D)
+# print(type(score1D))
 
 ### এবার আমরা চাচ্ছি সবচেয়ে কম স্কোর এর information দেখতে। তাহলে প্রথএম সর্ট কওরা লাগবে। তার আগে আমরা প্রতিটা score এর corrosponding index number dei. 
 
@@ -55,9 +55,20 @@ indexed_score=list(enumerate(score1D))
 
 print("Indexed: ",indexed_score)
 
-sorted_arr = sorted(indexed_score, key=lambda x: x[1])
+sorted_Score_index = sorted(indexed_score, key=lambda x: x[1])
 
-print("Sorted Array\n",sorted_arr)
+# print("Sorted Array\n",sorted_Score_index = sorted(indexed_score, key=lambda x: x[1]))
+
+
+## Now it is sorted with indexed in lower to Higher.
+## We want the maximum highest Score with Index. 
+
+h_index, h_score=sorted_Score_index[-1]
+
+print("Highest Score: ",h_score)
+print("Highest Index: ", h_index)
+
+print("Relevent Document:\n",documents[int(h_index)])
 
 
 
