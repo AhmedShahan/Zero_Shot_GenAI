@@ -1,4 +1,6 @@
 import streamlit as st
+from langchain_google_genai import GoogleGenerativeAI, ChatGoogleGenerativeAI
+from langchain_core.prompts import PromptTemplate
 
 
 
@@ -7,7 +9,7 @@ st.write("This is a simple chatbot that uses Open Source LLMs to summarize text.
 
 
 
-st.selectbox("Select a Paper", ["Attention is All You Need", 
+paper_title=st.selectbox("Select a Paper", ["Attention is All You Need", 
                                 "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", 
                                 "Language Models are Unsupervised Multitask Learners",
                                 "Scaling Laws for Neural Language Models",
@@ -20,14 +22,59 @@ st.selectbox("Select a Paper", ["Attention is All You Need",
                                 "ERNIE: Enhanced Representation through kNowledge Integration",
                                 ])
 
-st.selectbox("Select Explanation Style", ["Beginer-Friendly", 
+explanation_style= st.selectbox("Select Explanation Style", ["Beginer-Friendly", 
                                             "Code Oriented", 
                                             "Mathematical", 
                                             "Technical", 
                                             "Expert Level"])
-st.selectbox("Select Length of Explanation", ["Short", 
+explanation_length= st.selectbox("Select Length of Explanation", ["Short", 
                                                 "Medium", 
                                                 "Long"])
 
+
+simple_templet="""
+Please summarize the research paper titled '{paper_title}' with the following specification: 
+Explain Style: {explanation_style}
+Explanation Lenght: {explanation_length}
+1. Mathematical Details: 
+    - Include relevent Mathematical equations if present in paper. 
+    - Explain the mathematical concept using simple, intutive code snippet where applicable. 
+
+2. Technical Details:
+    - Include relevent technical details if present in paper. 
+    - Explain the technical concept using simple, intutive code snippet where applicable.
+
+3. Code Oriented:
+    - Include relevent code snippets if present in paper. 
+    - Explain the code using simple, intutive code snippet where applicable.
+
+4. Analogical: 
+    - Use relevant analogies to simplify complex concepts or ideas.    
+If certain information is not in the paper, respond with "Information not available in the paper" instead of guessing or making assumptions.
+Ensure that the summary is clear, concise, and easy to understand for someone who may not be familiar with the topic.
+"""
+
+
+
+
+prompt=PromptTemplate(
+    template=simple_templet,
+    input_variables=["paper_title", "explanation_style", "explanation_length"],
+    validate_template=True,
+)
+
+## Fill the placeholder in the template with the user input
+prompt.invoke(
+    {
+        'paper_title': paper_title,
+        'explanation_style': explanation_style,
+        'explanation_length': explanation_length,
+    }
+)
+
+
+model= ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
+
 if st.button("Summarize"):
-    st.write("Something")
+    result= model.invoke(prompt)
+    st.write("Google LLM Response:", result.content)
