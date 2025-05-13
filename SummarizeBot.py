@@ -16,10 +16,14 @@ st.write("This is a simple chatbot that uses Open Source LLMs to summarize text.
 input_text= st.text_input("Enter the text to summarize:")
 
 # Initialize session state variables
+# Initialize session state variables
 if "result1" not in st.session_state:
     st.session_state.result1 = None
     st.session_state.result2 = None
     st.session_state.result3 = None
+
+# Text input
+# input_text = st.text_area("Enter text to summarize:")
 
 # First button to generate summaries
 if st.button("Summarize"):
@@ -27,18 +31,24 @@ if st.button("Summarize"):
     st.session_state.result2 = model2.invoke(input_text)
     st.session_state.result3 = model3.invoke(input_text)
 
-# Display buttons for each model's result, shown only if results exist
-if st.session_state.result1 is not None:
-    if st.button("Summarize from Google"):
-        st.write("Google LLM Response:", st.session_state.result1)
+# Show buttons in bat (horizontal) format if any results exist
+if any([st.session_state.result1, st.session_state.result2, st.session_state.result3]):
+    col1, col2, col3 = st.columns(3)
 
-if st.session_state.result2 is not None:
-    if st.button("Summarize from ChatGoogle"):
-        st.write("ChatGoogle LLM Response:", st.session_state.result2.content)
+    with col1:
+        if st.session_state.result1 is not None:
+            if st.button("Summarize from Google"):
+                st.write("Google LLM Response:", st.session_state.result1)
 
-if st.session_state.result3 is not None:
-    if st.button("Summarize from Cohere"):
-        st.write("Cohere Response:", st.session_state.result3.content)
+    with col2:
+        if st.session_state.result2 is not None:
+            if st.button("Summarize from ChatGoogle"):
+                st.write("ChatGoogle LLM Response:", st.session_state.result2.content)
 
-if st.session_state.result1 is None and st.session_state.result2 is None and st.session_state.result3 is None:
+    with col3:
+        if st.session_state.result3 is not None:
+            if st.button("Summarize from Cohere"):
+                st.write("Cohere Response:", st.session_state.result3.content)
+
+elif not any([st.session_state.result1, st.session_state.result2, st.session_state.result3]):
     st.write("No results available yet.")
