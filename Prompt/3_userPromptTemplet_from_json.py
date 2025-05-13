@@ -32,48 +32,25 @@ explanation_length= st.selectbox("Select Length of Explanation", ["Short",
                                                 "Long"])
 
 
-Research_prompt="""
-Please summarize the research paper titled '{paper_title}' with the following specification: 
-Explain Style: {explanation_style}
-Explanation Lenght: {explanation_length}
-1. Mathematical Details: 
-    - Include relevent Mathematical equations if present in paper. 
-    - Explain the mathematical concept using simple, intutive code snippet where applicable. 
-
-2. Technical Details:
-    - Include relevent technical details if present in paper. 
-    - Explain the technical concept using simple, intutive code snippet where applicable.
-
-3. Code Oriented:
-    - Include relevent code snippets if present in paper. 
-    - Explain the code using simple, intutive code snippet where applicable.
-
-4. Analogical: 
-    - Use relevant analogies to simplify complex concepts or ideas.    
-If certain information is not in the paper, respond with "Information not available in the paper" instead of guessing or making assumptions.
-Ensure that the summary is clear, concise, and easy to understand for someone who may not be familiar with the topic.
-"""
 
 
-
-
-templet=PromptTemplate(
+prompt=PromptTemplate(
     input_variables=["paper_title", "explanation_style", "explanation_length"],
-    template=Research_prompt,
+    template=simple_templet,
     validate_template=True,
 )
 
-## Fill the placeholder with the user input
-final_prompt=templet.invoke({
-    "paper_title":paper_title,
-    "explanation_style": explanation_style,
-    "explanation_length": explanation_length
-})
+
 
 model= ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
 
 if st.button("Summarize"):
     st.write("Generating summary...")
         # First, format the prompt with the user's selections
-    result= model.invoke(final_prompt)
+    formatted_prompt = prompt.format(
+        paper_title=paper_title,
+        explanation_style=explanation_style,
+        explanation_length=explanation_length
+    )
+    result= model.invoke(formatted_prompt)
     st.write("Google LLM Response:", result.content)
