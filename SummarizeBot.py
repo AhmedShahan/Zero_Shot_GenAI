@@ -36,19 +36,16 @@ if any([st.session_state.result1, st.session_state.result2, st.session_state.res
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        if st.session_state.result1 is not None:
-            if st.button("Summarize from Google"):
-                st.write("Google LLM Response:", st.session_state.result1)
+        if st.button("Summarize from Google"):
+            st.write("Google LLM Response:", st.session_state.result1)
 
     with col2:
-        if st.session_state.result2 is not None:
-            if st.button("Summarize from ChatGoogle"):
-                st.write("ChatGoogle LLM Response:", st.session_state.result2.content)
+        if st.button("Summarize from ChatGoogle"):
+            st.write("ChatGoogle LLM Response:", st.session_state.result2.content)
 
     with col3:
-        if st.session_state.result3 is not None:
-            if st.button("Summarize from Cohere"):
-                st.write("Cohere Response:", st.session_state.result3.content)
+        if st.button("Summarize from Cohere"):
+            st.write("Cohere Response:", st.session_state.result3.content)
 
 elif not any([st.session_state.result1, st.session_state.result2, st.session_state.result3]):
     st.write("No results available yet.")
