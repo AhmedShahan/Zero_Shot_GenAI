@@ -1,6 +1,6 @@
 import streamlit as st
 from langchain_google_genai import GoogleGenerativeAI, ChatGoogleGenerativeAI
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate, load_prompt
 
 
 
@@ -34,23 +34,20 @@ explanation_length= st.selectbox("Select Length of Explanation", ["Short",
 
 
 
-prompt=PromptTemplate(
-    input_variables=["paper_title", "explanation_style", "explanation_length"],
-    template=simple_templet,
-    validate_template=True,
-)
 
+Research_prompt=load_prompt("/home/shahanahmed/Zero_Shot_GenAI/template.json")
 
+## Fill the placeholder with the user input
+final_prompt=Research_prompt.invoke({
+    "paper_title":paper_title,
+    "explanation_style": explanation_style,
+    "explanation_length": explanation_length
+})
 
 model= ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
 
 if st.button("Summarize"):
     st.write("Generating summary...")
         # First, format the prompt with the user's selections
-    formatted_prompt = prompt.format(
-        paper_title=paper_title,
-        explanation_style=explanation_style,
-        explanation_length=explanation_length
-    )
-    result= model.invoke(formatted_prompt)
+    result= model.invoke(final_prompt)
     st.write("Google LLM Response:", result.content)
