@@ -63,17 +63,4 @@ prompt=PromptTemplate(
     validate_template=True,
 )
 
-
-
-model= ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
-
-if st.button("Summarize"):
-    st.write("Generating summary...")
-        # First, format the prompt with the user's selections
-    formatted_prompt = prompt.format(
-        paper_title=paper_title,
-        explanation_style=explanation_style,
-        explanation_length=explanation_length
-    )
-    result= model.invoke(formatted_prompt)
-    st.write("Google LLM Response:", result.content)
+prompt.save('template.json')
