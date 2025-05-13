@@ -58,23 +58,30 @@ Ensure that the summary is clear, concise, and easy to understand for someone wh
 
 
 prompt=PromptTemplate(
-    template=simple_templet,
     input_variables=["paper_title", "explanation_style", "explanation_length"],
+    template=simple_templet,
     validate_template=True,
 )
 
 ## Fill the placeholder in the template with the user input
-prompt.invoke(
-    {
-        'paper_title': paper_title,
-        'explanation_style': explanation_style,
-        'explanation_length': explanation_length,
-    }
-)
+# prompt.invoke(
+#     {
+#         'paper_title': paper_title,
+#         'explanation_style': explanation_style,
+#         'explanation_length': explanation_length,
+#     }
+# )
 
 
 model= ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
 
 if st.button("Summarize"):
-    result= model.invoke(prompt)
+    st.write("Generating summary...")
+        # First, format the prompt with the user's selections
+    formatted_prompt = prompt.format(
+        paper_title=paper_title,
+        explanation_style=explanation_style,
+        explanation_length=explanation_length
+    )
+    result= model.invoke(formatted_prompt)
     st.write("Google LLM Response:", result.content)
