@@ -3,11 +3,11 @@ from langchain_core.prompts import ChatPromptTemplate
 
 
 chatTemplet=ChatPromptTemplate([
-    SystemMessage(content="You are a {domain} assistant."),
-    HumanMessage(content="Explain {input} in detail in {level}"),
+    ('system', "You are a helpful {domain} assistant."),
+    ('human', "What is the {level} level of {input}?"),
 ])
 
-prompt=chatTemplet.invoke({"domain":"AI", input:"Python", "level":"easy"})
+prompt=chatTemplet.invoke({"domain":"AI", "input":"Python", "level":"easy"})
 
 print(prompt)
 
