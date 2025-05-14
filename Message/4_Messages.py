@@ -7,14 +7,15 @@ load_dotenv()
 
 messages=[
     SystemMessage(content="You are a helpful assistant."),
-    HumanMessage(content="What is the greater of 5 and 3?"),
 ]
 
+promprt="What is The Greater of 5 and 3?"
+messages.append(HumanMessage(content=promprt))
 model= GoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
 response= model.invoke(messages)
 messages.append(AIMessage(content=response))
 
-
+print("Chat History:", messages)
 ## Printing Messages
 print("System Message:", messages[0].content)
 print("Human Message:", messages[1].content)
