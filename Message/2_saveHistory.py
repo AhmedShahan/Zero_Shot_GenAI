@@ -1,12 +1,3 @@
-### Create a Simple Terminal based chatbot using Gemini. 
-'''
-You: Hi
-AI: Hello! How can I assist you today?
-You: What is the capital of France?
-AI: The capital of France is Paris.
-'''
-
-
 from langchain_google_genai import GoogleGenerativeAI
 from dotenv import load_dotenv
 load_dotenv()
