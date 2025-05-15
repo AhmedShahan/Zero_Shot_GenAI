@@ -4,9 +4,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import os
 
-# Initialize Firebase (if not already initialized)
 def initialize_firebase():
-    if not firebase_admin._apps:
         try:
             cred = credentials.Certificate("/home/shahanahmed/Zero_Shot_GenAI/FireBase.py/learning-3b8cb-firebase-adminsdk-fbsvc-4c9eb36deb.json")
             firebase_admin.initialize_app(cred)
@@ -14,7 +12,7 @@ def initialize_firebase():
         except Exception as e:
             st.error(f"Failed to initialize Firebase: {e}")
             return False
-    return True
+
 
 # Function to authenticate user
 def authenticate_user(user_id, password):
