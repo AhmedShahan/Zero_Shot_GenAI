@@ -57,11 +57,7 @@ Ensure that the summary is clear, concise, and easy to understand for someone wh
 
 
 
-templet=PromptTemplate(
-    input_variables=["paper_title", "explanation_style", "explanation_length"],
-    template=Research_prompt,
-    validate_template=True,
-)
+templet=PromptTemplate.from_template(Research_prompt)
 
 ## Fill the placeholder with the user input
 final_prompt=templet.invoke({
