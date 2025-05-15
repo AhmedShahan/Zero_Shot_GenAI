@@ -52,6 +52,19 @@ def retrieve_chat(user_id):
         return []
 
 
+def write_chat(user_id, chat_id):
+    try:
+        db = firestore.client()
+        # Add a new document with specified fields
+        doc_ref = db.collection('UserChat').document()  # Auto-generated ID
+        doc_ref.set({
+            'UserID': user_id,
+            'ChatID': chat_id,
+        })
+        return True
+    except Exception as e:
+        st.error(f"Error writing to Firestore: {e}")
+        return False
 
 
 authentication= authenticate_user("ahmed", "112233")
@@ -61,5 +74,6 @@ print(authentication[0])
 retrive=retrieve_chat("ahmed")
 print(retrive)
 
+write=write_chat("ahmed", "chat1")
 
 
