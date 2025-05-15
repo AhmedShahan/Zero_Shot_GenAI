@@ -35,9 +35,38 @@ def authenticate_user(user_id, password):
     except Exception as e:
         return False, f"Authentication error: {e}"
 
+
+
+
+def retrive_chat(user_id):
+    db = firestore.client()
+    try:
+        user_ref = db.collection('UserChat').where('UserId', '==', user_id)
+        docs = user_ref.get()
+        texts = []
+        for doc in docs:
+            data = doc.to_dict()
+            if 'text' in data:
+                texts.append(data['text'])
+        
+        return texts
+
+    except Exception as e:
+        st.error(f"Error retrieving chat: {e}")
+        return None
+
+
+
+
+
+
 # Function to display the chatbot interface
 def show_chatbot():
     st.title("Chatbot Interface")
+
+    chats= retrive_chat(st.session_state.user_data['UserId'])
+    print(chats)
+    st.write(chats)
     
 
 # Main app
