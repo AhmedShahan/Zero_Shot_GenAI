@@ -7,9 +7,6 @@ import os
 # Initialize Firebase (if not already initialized)
 def initialize_firebase():
     if not firebase_admin._apps:
-        # You need to create and download a service account key file from Firebase console
-        # Save the file as 'firebase_key.json' in your app directory
-        # For security in production, consider using environment variables or Streamlit secrets
         try:
             cred = credentials.Certificate("/home/shahanahmed/Zero_Shot_GenAI/FireBase.py/learning-3b8cb-firebase-adminsdk-fbsvc-4c9eb36deb.json")
             firebase_admin.initialize_app(cred)
@@ -67,7 +64,7 @@ def main():
                             st.session_state.logged_in = True
                             st.session_state.user_data = result
                             st.success("Login successful!")
-                            st.experimental_rerun()
+                            # st.experimental_rerun()
                         else:
                             st.error(result)
                     else:
@@ -84,7 +81,7 @@ def main():
         if st.button("Logout"):
             st.session_state.logged_in = False
             st.session_state.user_data = None
-            st.experimental_rerun()
+            # st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
