@@ -36,16 +36,30 @@ def authenticate_user(user_id, password):
         return False, f"Authentication error: {e}"
 
 
-def retrive_chat(user_id):
-    # Initialize Firestore
+def retrieve_chat(user_id):
     db = firestore.client()
+    try:
+        user_ref = db.collection('UserChat').where('UserID', '==', user_id)  # Note: Changed 'UserId' to 'UserID' to match case
+        docs = user_ref.get()
+        chat_data = []
+        for doc in docs:
+            data = doc.to_dict()
+            if 'ChatID' in data:
+                chat_data.append(data['ChatID'])
+        return chat_data
+    except Exception as e:
+        st.error(f"Error retrieving chat: {e}")
+        return []
 
 
 
 
-authentication= authenticate_user("shahan", "123")
+authentication= authenticate_user("ahmed", "112233")
 
 print(authentication[0])
+
+retrive=retrieve_chat("ahmed")
+print(retrive)
 
 
 
