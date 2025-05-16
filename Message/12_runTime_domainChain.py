@@ -7,10 +7,13 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 load_dotenv()
 # 1. Define your prompt template
-prompt_template = ChatPromptTemplate.from_messages([
+
+message=[
     ("system", "You are a helpful {domain} assistant."),
     ("human", "{input}")
-])
+]
+
+prompt_template = ChatPromptTemplate.from_messages(message)
 
 # 2. Get user input for the domain
 domain = "general"
