@@ -1,76 +1,69 @@
-from langchain.prompts import ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.schema import SystemMessage, HumanMessage, AIMessage
+
 from langchain_google_genai import ChatGoogleGenerativeAI
+
+
 from dotenv import load_dotenv
-import os
-import ast  # To safely parse string representations of Python objects
-
 load_dotenv()
+# 1. Define your prompt template
 
-# Define your prompt template
-message = [
+message=[
     ("system", "You are a helpful {domain} assistant."),
-    ("human", "{input}")
+    MessagesPlaceholder(variable_name='chat_history'),
+    ("human", "{input}"),
 ]
 
 prompt_template = ChatPromptTemplate.from_messages(message)
 
-# Initialize model
-model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
+# 2. Get user input for the domain
 
-# Chat history file path
-chat_history_file = "/home/shahanahmed/Zero_Shot_GenAI/Message/chat_history.txt"
-
-# Step 1: Try to load previous chat history if available
+# 3. Initialize chat history
 chat_history = []
+with open('/home/shahanahmed/Zero_Shot_GenAI/Message/chat_history.txt') as f:
+    history_str = f.read()
+
+# Step 2: Safely evaluate with limited global namespace
+chat_history = eval(history_str, {
+    'SystemMessage': SystemMessage,
+    'HumanMessage': HumanMessage,
+    'AIMessage': AIMessage
+})
+
+# Now you have a list of Message objects
+# print(chat_history)
+
 domain = "general"
-
-if os.path.exists(chat_history_file) and os.path.getsize(chat_history_file) > 0:
-    with open(chat_history_file, "r") as file:
-        saved_history = file.read()
-        try:
-            raw_history = ast.literal_eval(saved_history)  # Converts string back to list of dict-like messages
-            for msg in raw_history:
-                if isinstance(msg, dict):  # Just in case
-                    role = msg.get("type") or msg.get("role")  # Compatibility
-                    content = msg.get("content")
-                    if role == "system":
-                        chat_history.append(SystemMessage(content=content))
-                    elif role == "human":
-                        chat_history.append(HumanMessage(content=content))
-                    elif role == "ai":
-                        chat_history.append(AIMessage(content=content))
-        except Exception as e:
-            print(f"Failed to parse previous chat history: {e}")
-
-# Step 2: Open file for writing (truncate to overwrite later)
-file = open(chat_history_file, "w")
-
-# Step 3: Start chatbot loop
+model= ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
+file = open("/home/shahanahmed/Zero_Shot_GenAI/Message/chat_history.txt", "a")
+# # 4. Start the chatbot loop
 while True:
     input_query = input("Enter your query (or type 'exit' to quit): ")
     if input_query.lower() in ["exit", "quit"]:
         print("Exiting the chatbot. Goodbye!")
         break
-    elif input_query.lower() in ["domain", "change"]:
-        domain = input("Enter Your Domain: ")
+    elif input_query.lower() in ['domain','change']:
+        domain=input("Enter Your Domain: ")
         input_query = input("Enter your query (or type 'exit' to quit): ")
-
-    # Format messages using prompt
+    # 5. Format messages using the prompt template
     formatted_messages = prompt_template.format_messages(domain=domain, input=input_query)
 
+    # 6. Extract system and human messages
     system_message = formatted_messages[0]
     human_message = formatted_messages[1]
 
+    # 7. Append to chat history in correct order
     chat_history.append(system_message)
     chat_history.append(human_message)
 
+    # 8. Invoke the model with full chat history
     response = model.invoke(chat_history)
+
+    # 9. Add AI response to chat history
     ai_message = AIMessage(content=response.content)
     chat_history.append(ai_message)
 
+    # 10. Print AI response
     print(f"Assistant: {ai_message.content}")
-
-# Step 4: Save chat history
+print(chat_history)
 file.write(str(chat_history))
-file.close()
