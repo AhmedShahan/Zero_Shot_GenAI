@@ -6,28 +6,24 @@ import ast
 import os
 
 load_dotenv()
-
+import json
 # Restore chat history if file exists
 chat_history_path = "/home/shahanahmed/Zero_Shot_GenAI/Message/chat_history.txt"
 chat_history = []
 import re
 if os.path.exists(chat_history_path):
     with open(chat_history_path, "r") as f:
-        data = f.read()
-
-    # Match strings like SystemMessage(content='...') and extract type and content
-    pattern = r"(SystemMessage|HumanMessage|AIMessage)\(content='(.*?)'(?:,.*?)?\)"
-    matches = re.findall(pattern, data)
-
-    for msg_type, content in matches:
-        # Unescape any escaped single quotes
-        content = content.replace("\\'", "'")
-        if msg_type == "SystemMessage":
-            chat_history.append(SystemMessage(content=content))
-        elif msg_type == "HumanMessage":
-            chat_history.append(HumanMessage(content=content))
-        elif msg_type == "AIMessage":
-            chat_history.append(AIMessage(content=content))
+        try:
+            stored_messages = json.load(f)
+            for item in stored_messages:
+                if item["type"] == "SystemMessage":
+                    chat_history.append(SystemMessage(content=item["content"]))
+                elif item["type"] == "HumanMessage":
+                    chat_history.append(HumanMessage(content=item["content"]))
+                elif item["type"] == "AIMessage":
+                    chat_history.append(AIMessage(content=item["content"]))
+        except Exception as e:
+            print("Failed to load chat history:", e)
 
 # Define prompt template
 message = [
@@ -40,7 +36,7 @@ prompt_template = ChatPromptTemplate.from_messages(message)
 domain = "general"
 
 # Initialize file for writing chat history
-file = open(chat_history_path, "w")
+file = open(chat_history_path, "a")
 
 # Initialize Gemini model
 model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
@@ -76,5 +72,8 @@ while True:
     print(f"Assistant: {ai_message.content}")
 
 # Save chat history before exit
-file.write(str(chat_history))
-file.close()
+with open(chat_history_path, "w") as f:
+    json.dump(
+        [{"type": msg.__class__.__name__, "content": msg.content} for msg in chat_history],
+        f, indent=2
+    )
