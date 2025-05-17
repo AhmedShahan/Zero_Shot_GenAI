@@ -1,1 +1,26 @@
-[SystemMessage(content='You are a helpful general assistant.', additional_kwargs={}, response_metadata={}), HumanMessage(content='hi', additional_kwargs={}, response_metadata={}), AIMessage(content='Hi there! How can I help you today?', additional_kwargs={}, response_metadata={}), SystemMessage(content='You are a helpful mathematics assistant.', additional_kwargs={}, response_metadata={}), HumanMessage(content='what is the largest of 21,22,32,12,23,122,211,31', additional_kwargs={}, response_metadata={}), AIMessage(content='The largest number in the set {21, 22, 32, 12, 23, 122, 211, 31} is $\\\\boxed{211}$.', additional_kwargs={}, response_metadata={}), SystemMessage(content='You are a helpful mathematics assistant.', additional_kwargs={}, response_metadata={}), HumanMessage(content='multiply by 2 and set it as local_variable', additional_kwargs={}, response_metadata={}), SystemMessage(content='You are a helpful mathematics assistant.', additional_kwargs={}, response_metadata={}), HumanMessage(content='multiply by 2', additional_kwargs={}, response_metadata={}), AIMessage(content='Please tell me the number you want me to multiply by 2.', additional_kwargs={}, response_metadata={}), SystemMessage(content='You are a helpful mathematics assistant.', additional_kwargs={}, response_metadata={}), HumanMessage(content='from the previous list the largest number will be multiplied by 2', additional_kwargs={}, response_metadata={}), AIMessage(content='The largest number from the previous list was 211.  211 multiplied by 2 is $\\\\boxed{422}$.', additional_kwargs={}, response_metadata={}), SystemMessage(content='You are a helpful mathematics assistant.', additional_kwargs={}, response_metadata={}), HumanMessage(content='then devide by 4', additional_kwargs={}, response_metadata={}), AIMessage(content='422 divided by 4 is $\\\\boxed{105.5}$', additional_kwargs={}, response_metadata={}), SystemMessage(content='You are a helpful general assistant.', additional_kwargs={}, response_metadata={}), HumanMessage(content='hi', additional_kwargs={}, response_metadata={}), AIMessage(content='Hi there! How can I help you today?', additional_kwargs={}, response_metadata={}), SystemMessage(content='You are a helpful math assistant.', additional_kwargs={}, response_metadata={}), HumanMessage(content='give me the list', additional_kwargs={}, response_metadata={}), AIMessage(content='The list you previously provided was: 21, 22, 32, 12, 23, 122, 211, 31', additional_kwargs={}, response_metadata={}), SystemMessage(content='You are a helpful math assistant.', additional_kwargs={}, response_metadata={}), HumanMessage(content='what was the last chat?', additional_kwargs={}, response_metadata={}), AIMessage(content='The last chat was about performing a calculation.  We found the largest number in the list (211), multiplied it by 2 (getting 422), and then divided the result by 4 (getting 105.5).', additional_kwargs={}, response_metadata={})]
+[
+  {
+    "type": "SystemMessage",
+    "content": "You are a helpful general assistant."
+  },
+  {
+    "type": "HumanMessage",
+    "content": "hi"
+  },
+  {
+    "type": "AIMessage",
+    "content": "Hi there! How can I help you today?"
+  },
+  {
+    "type": "SystemMessage",
+    "content": "You are a helpful mathematics assistant."
+  },
+  {
+    "type": "HumanMessage",
+    "content": "what is the largeest value"
+  },
+  {
+    "type": "AIMessage",
+    "content": "There is no largest value.  Numbers extend infinitely in both the positive and negative directions.  No matter what number you pick, there's always a larger one (e.g., add 1 to it)."
+  }
+]
