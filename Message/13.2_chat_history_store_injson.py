@@ -59,14 +59,14 @@ print(chat_history)
 import os
 import json
 
-def save_chat_history(chat_history, file_name="chat_history.json", chat_history_path=None):
-    # Use the provided path or create a path in the current directory with the given file name
-    path = chat_history_path if chat_history_path else os.path.join(os.getcwd(), file_name)
+# def save_chat_history(chat_history, file_name="chat_history.json", chat_history_path=None):
+#     # Use the provided path or create a path in the current directory with the given file name
+#     path = chat_history_path if chat_history_path else os.path.join(os.getcwd(), file_name)
 
-    with open(path, "a") as f:
-        json.dump(
-            [{"type": msg.__class__.__name__, "content": msg.content} for msg in chat_history],
-            f,
-            indent=2
-        )
-save_chat_history(chat_history, "/home/shahanahmed/Zero_Shot_GenAI/Message/my_chat.json")
+with open("chat_history2.json", "a") as f:
+    json.dump(
+        [{"type": msg.__class__.__name__, "content": msg.content} for msg in chat_history],
+        f,
+        indent=2
+    )
+# save_chat_history(chat_history, "/home/shahanahmed/Zero_Shot_GenAI/Message/my_chat.json")
