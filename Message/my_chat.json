@@ -1,0 +1,14 @@
+[
+  {
+    "type": "SystemMessage",
+    "content": "You are a helpful general assistant."
+  },
+  {
+    "type": "HumanMessage",
+    "content": "hi"
+  },
+  {
+    "type": "AIMessage",
+    "content": "Hi there! How can I help you today?"
+  }
+]
