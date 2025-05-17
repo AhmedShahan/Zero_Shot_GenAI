@@ -84,10 +84,31 @@ while True:
     # Display response
     print(f"Assistant: {ai_message.content}")
 
-from datetime import datetime
-chat_data = [{"type": msg.__class__.__name__, "content": msg.content} for msg in chat_history]
-session_id = datetime.now().strftime("%Y_%m_%d_Current_time_%H_%M_%S")  # e.g., 2025_05_17_Current_time_15_47_22
+### Store in a net document
 
-db.collection("chat_sessions").document(session_id).set({
-    "messages": chat_data
-})
+# from datetime import datetime
+# chat_data = [{"type": msg.__class__.__name__, "content": msg.content} for msg in chat_history]
+# session_id = datetime.now().strftime("%Y_%m_%d_Current_time_%H_%M_%S")  # e.g., 2025_05_17_Current_time_15_47_22
+
+# db.collection("chat_sessions").document(session_id).set({
+#     "messages": chat_data
+# })
+
+
+
+
+### Append in that Chat
+chat_data = [{"type": msg.__class__.__name__, "content": msg.content} for msg in chat_history]
+doc_ref = db.collection("chat_sessions").document(session_id)
+
+# Check if the session exists and append
+doc = doc_ref.get()
+if doc.exists:
+    existing_data = doc.to_dict().get("messages", [])
+    updated_data = existing_data + chat_data
+    doc_ref.update({"messages": updated_data})
+    print(f"Appended {len(chat_data)} messages to session {session_id}")
+else:
+    # If the document does not exist, create it
+    doc_ref.set({"messages": chat_data})
+    print(f"Created new session {session_id} with {len(chat_data)} messages")
