@@ -2,7 +2,8 @@
 
 from langchain_google_genai import GoogleGenerativeAI, ChatGoogleGenerativeAI
 from langchain_cohere import ChatCohere
-
+from dotenv import load_dotenv
+load_dotenv()
 import streamlit as st
 
 model1= GoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
