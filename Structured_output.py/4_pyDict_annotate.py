@@ -39,7 +39,7 @@ simplicity that once defined it.
 """
 
 class Review(TypedDict):
-    summary:Annotated[str, "A brief summary of teh product in easy way"]
+    summary:Annotated[str, "A brief summary of teh product in easy way with in 100 Words"]
     sentiment:Annotated[str, "Return the sentiment of the reviewer either positive or negative"]
 
 structured_model=model.with_structured_output(Review)
@@ -66,4 +66,31 @@ print("*"*50)
 
 
 
+###### Responces
+'''
+The Galaxy S24 Ultra offers top-tier performance with a stunning display and impressive camera, though its size and price may be drawbacks for some.
+positive
+**************************************************
+Review of iphone
+Minor updates like USB-C and improved battery life are welcome, but the lack of innovation and a high-refresh-rate display might disappoint some users.
+mixed
+**************************************************
+Review of Onepus
+The Nord CE 3 Lite offers a large 120Hz screen and decent battery life, but struggles in its price segment due to an underwhelming camera, lagging performance, plasticky build, and a less simple OxygenOS.
+mixed
 
+
+
+
+### এখানে খেয়াল করলে দেখা যাবে যে sentiment mixed, or slightly mostly positive এরকম আসতে পারে। তাহলে question হলও আমরা তো Annotation এ বলে দিলাম 
+যে শুধু positive or Negative হবে তাহলে এরকম কেন হলও 
+
+This is just a hint to the LLM. It does not strictly enforce that only "positive" or "negative" can be returned. The Gemini model (like other LLMs) can still interpret "mixed", "mostly positive", etc., as nuanced expressions if it thinks that's a better fit.
+
+This behavior occurs because:
+
+Annotated[str, "..."] adds metadata, but it doesn’t restrict the value to a finite set.
+
+Gemini is still generating natural language unless explicitly constrained.
+
+'''
