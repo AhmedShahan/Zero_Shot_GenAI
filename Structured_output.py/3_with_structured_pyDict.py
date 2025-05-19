@@ -4,7 +4,8 @@ from typing import TypedDict
 
 ## Basic Workflow
 from langchain_google_genai import ChatGoogleGenerativeAI
-
+from langchain_cohere import ChatCohere
+from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -14,6 +15,20 @@ model=ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
     temperature=0.5
 )
+
+
+### Cohera
+# model= ChatCohere(model="command-r-plus")
+## Not work with with_structured. 
+
+### 
+# model=ChatOllama(model="deepseek-r1:1.5b")
+# model=ChatOllama(model="phi4-mini")
+model=ChatOllama(model="llama3.2:1b")
+
+
+
+
 
 Samsung_Galaxy_S24_Ultra="""
 The Galaxy S24 Ultra combines a titanium frame with a stunning QHD+ AMOLED display that makes visuals pop. 
