@@ -29,6 +29,18 @@ Experience Impression: Balanced, leaning toward appreciation with reservations
 """
 
 
+television_review="""
+After spending a few weeks with the LG C3 OLED TV, I’ve had the chance to explore both its strengths and the areas where it could improve. The first thing that grabs attention is the ultra-thin profile—it almost disappears when wall-mounted, giving the room a sleek and modern look. The 4K OLED panel delivers remarkable picture quality. Dark scenes in movies have a cinematic depth, with inky blacks and rich contrast that add realism to every frame. Watching nature documentaries or high-definition sports broadcasts is equally stunning, with colors appearing vibrant but not oversaturated.
+
+The webOS interface feels intuitive, and switching between apps like Netflix, YouTube, and Prime Video happens quickly without noticeable lag. The Magic Remote takes some getting used to but becomes natural after a day or two. Another noticeable point is the sound. While it doesn’t replace a dedicated sound system, the built-in speakers are surprisingly clear, especially for dialogue-heavy content. The AI Sound Pro feature adjusts levels based on content type, which proves helpful during quiet conversations and action scenes alike.
+
+However, brightness during the day could be better. In rooms with a lot of sunlight, reflections sometimes interfere with visibility, especially on lighter scenes. For gaming, while the 120Hz refresh rate and HDMI 2.1 support are great additions, there have been occasional compatibility issues when connecting older consoles. Also, some users might find the setup process a bit lengthy, particularly if calibrating the picture manually.
+
+Altogether, this TV seems designed for viewers who value visual precision and style, with a clear focus on cinematic quality and smart integration. It's built to impress in darkened environments and delivers a viewing experience that’s hard to forget.
+Experience Impression: Strong visual appeal with minor usability trade-offs
+
+"""
+
 class Review(TypedDict):
     key_features:Annotated[list[str], "Write down all the key features discussed about the phone."]
     summary:Annotated[str, "A brief summary of teh product in easy way with in 100 Words"]
@@ -38,7 +50,7 @@ class Review(TypedDict):
 
 structured_model=model.with_structured_output(Review)
 
-response=structured_model.invoke(phone_review)
+response=structured_model.invoke(television_review)
 print("Key Features: ", response["key_features"])
 print("Summary: ", response["summary"])
 print("Sentiment: ", response["sentiment"])
@@ -54,4 +66,62 @@ print("Cons: ", response["cons"])
 
 
 
+####### Response Analysis
+'''
+Original
+Key Features:
+4K OLED display with perfect blacks and vibrant colors
 
+Ultra-slim design, ideal for wall mounting
+
+webOS smart platform with smooth app switching
+
+Magic Remote with motion control support
+
+AI Sound Pro technology for adaptive audio enhancement
+
+120Hz refresh rate + HDMI 2.1 (supports next-gen gaming)
+
+Dolby Vision and Dolby Atmos support for cinematic experience
+
+📝 Summary:
+A premium OLED TV designed for those who value high-end visuals, smart features, and elegant aesthetics. It excels in dark room performance, offers smooth navigation, and is well-suited for streaming and gaming. A few usability issues are present, but they don’t significantly affect the overall quality.
+
+✅ Pros:
+Stunning picture quality with deep contrast
+
+Clean, modern look with ultra-thin build
+
+Intuitive and fast user interface
+
+Good sound without external speakers
+
+Strong support for gamers (high refresh rate, HDMI 2.1)
+
+❌ Cons:
+Reflective screen in bright environments
+
+Slight learning curve with Magic Remote
+
+Manual picture calibration can be time-consuming
+
+No bundled soundbar or high-end speaker system
+
+🎯 Sentiment:
+Positive
+
+
+-------------------------------------------------
+
+This code response
+Key Features:  ['"4K OLED panel"', '"webOS interface"', '"AI Sound Pro"', '"120Hz refresh rate"', '"HDMI 2.1 support"', '"Magic Remote"']
+Summary:  "Strong visual appeal with minor usability trade-offs"
+Sentiment:  "Positive"
+Pros:  ['"Ultra-thin profile"', '"Remarkable picture quality with inky blacks and rich contrast"', '"Vibrant colors in nature documentaries and sports broadcasts"', '"Intuitive webOS interface with quick app switching"', '"Surprisingly clear built-in speakers"', '"AI Sound Pro feature adjusts levels based on content type"', '"120Hz refresh rate and HDMI 2.1 support for gaming"']
+Cons:  ['"Brightness could be better in sunlight"', '"Reflections interfere with visibility in bright rooms"', '"Occasional compatibility issues with older gaming consoles"', '"Lengthy setup process, especially with manual picture calibration"']
+
+
+
+
+
+'''
