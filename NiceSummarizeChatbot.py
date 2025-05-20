@@ -47,17 +47,29 @@ if user_input:
                 "Cohere": cohere_response.content
             }
 
-        # Display tabs to switch responses
+        # Simulated streaming response using st.empty()
         tab1, tab2, tab3 = st.tabs(["🔹 Google Gemini", "🔹 ChatGoogle Gemini", "🔹 Cohere"])
 
+        def stream_text(text):
+            placeholder = st.empty()
+            full_text = ""
+            for word in text.split():
+                full_text += word + " "
+                placeholder.markdown(f"**{full_text.strip()}**")
+                time.sleep(0.05)  # Adjust speed as needed
+                print(full_text.strip())
+            return full_text.strip()
+
+        import time
         with tab1:
-            st.markdown(f"**Google Gemini Response:**\n\n{g_response}")
+            stream_text(g_response)
 
         with tab2:
-            st.markdown(f"**ChatGoogle Gemini Response:**\n\n{chatg_response.content}")
+            stream_text(chatg_response.content)
 
         with tab3:
-            st.markdown(f"**Cohere Response:**\n\n{cohere_response.content}")
+            stream_text(cohere_response.content)
+
 
         # Save a combined summary in chat history
         st.session_state.messages.append({
