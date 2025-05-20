@@ -1,5 +1,5 @@
 ### Some Phone information
-from typing import TypedDict, Annotated, Optional
+from typing import TypedDict, Annotated, Optional, Literal
 
 
 ## Basic Workflow
@@ -44,7 +44,9 @@ Experience Impression: Strong visual appeal with minor usability trade-offs
 class Review(TypedDict):
     key_features:Annotated[list[str], "Write down all the key features discussed about the phone."]
     summary:Annotated[str, "A brief summary of teh product in easy way with in 100 Words"]
-    sentiment:Annotated[str, "Return the sentiment of the reviewer either positive or negative"]
+    # sentiment:Annotated[str, "Return the sentiment of the reviewer either positive or negative"]
+    sentiment:Annotated[Literal["pos","neg"], "Return the sentiment of the reviewer either positive or negative"]
+
     pros: Annotated[Optional[list[str]], "Write Down all the Pros from the review in a List"]
     cons: Annotated[Optional[list[str]], "Write Down all the Cons from the review in a List"]
 
