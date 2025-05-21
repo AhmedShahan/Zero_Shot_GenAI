@@ -1,6 +1,6 @@
 ### Some Phone information
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List
+from typing import Optional, List, Literal
 
 ## Basic Workflow
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -39,7 +39,7 @@ Experience Impression: Balanced, leaning toward appreciation with reservations
 class Review(BaseModel):
     key_terms:Optional[list[str]] = Field(description="Write down all the key terms discussed about the phone.")
     summary: str = Field(description="A brief summary of teh product in easy way with in 100 Words")
-    sentiment: str = Field(description="Return the sentiment of the reviewer either positive or negative")
+    sentiment: Literal["pos","Neg"] = Field(description="Return the sentiment of the reviewer either positive or negative")
     pros: Optional[list[str]] = Field(description="Write Down all the Pros from the review in a List")
     cons: Optional[list[str]] = Field(description="Write Down all the Cons from the review in a List")
     reviewer_name: Optional[str] = Field(description="Name of the reviewer")
