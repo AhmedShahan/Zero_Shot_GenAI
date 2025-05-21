@@ -33,7 +33,26 @@ Experience Impression: Balanced, leaning toward appreciation with reservations
 
 """
 
-chain=prompt_templet | model
+from pydantic import BaseModel, Field
+from typing import Optional, List
+class Review(BaseModel):
+    key_terms:Optional[List[str]] = Field(description="Write down all the key terms discussed about the phone.")
+    summary: str = Field(description="A brief summary of teh product in easy way with in 100 Words")
+    sentiment: str = Field(description="Return the sentiment of the reviewer either positive or negative")
+    pros: Optional[List[str]] = Field(description="Write Down all the Pros from the review in a List")
+    cons: Optional[List[str]] = Field(description="Write Down all the Cons from the review in a List")
+    reviewer_name: Optional[str] = Field(description="Name of the reviewer")
+
+
+
+structured_output=model.with_structured_output(Review)
+
+chain=prompt_templet | model | structured_output
 response=chain.invoke({"review":phone_review})
 
 print(response)
+
+
+
+###################### 
+########## This things will be happened uusing Parsing. Not here
