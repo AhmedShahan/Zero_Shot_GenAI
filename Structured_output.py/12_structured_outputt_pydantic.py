@@ -11,7 +11,7 @@ load_dotenv()
 
 
 
-# model = ChatOllama(model="deepseek-r1:1.5b")
+model = ChatOllama(model="deepseek-r1:1.5b")
 
 # model = ChatGoogleGenerativeAI(
 #     model="gemini-1.5-flash",
