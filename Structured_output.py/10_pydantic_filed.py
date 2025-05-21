@@ -4,7 +4,7 @@ class student(BaseModel):
     name: str = "Ahmed"
     age: int = 20
     ### Lets say আমরা চাচ্ছি cgpa ২-৩  এর মাঝে জাদের তাদের টাই শুধু নিতে তাহলে 
-    grade: Optional[float] = Field(ge=2, le=4, default=2.5)
+    grade: Optional[float] = Field(ge=2, le=4, default=2.5, description="CGPA should be between 2 and 4")
     is_enrolled: Optional[bool] = None
     email: Optional[EmailStr] = None
 
