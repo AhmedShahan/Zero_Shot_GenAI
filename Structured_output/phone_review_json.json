@@ -1,16 +1,23 @@
 {
     "key_terms": [
         "Galaxy A55",
-        "Exynos 1480",
-        "SmartmiOS 16.3.2"
+        "Samsung Galaxy A Series",
+        "Mid-Range Phone"
     ],
-    "summary": "Mid-range phone that strikes a nice balance between style and performance, especially in terms of display and battery life.",
+    "summary": "I recently switched to the Samsung Galaxy A55 and have found it a great balance between style, screen quality, and practicality. The design is modern yet clean, with a smooth finish. The 6.6-inch Super AMOLED display offers vibrant colors and depth of field, which made video content engaging even in bright light. Smooth performance without hiccups on most apps, but occasional issues when dealing with demanding tasks or multiple games. The stereo speakers are decently priced for a mid-range phone. The UI is clean, and One UI 6.1 enhances the experience without bloating. Reliance on the Exynos 1480, which works well for everyday use. The camera does its part in low-light but lacks consistency compared to newer models. Without wireless charging, setup was a hassle. I appreciate the balance of display quality and battery life, making it suitable for those prioritizing style without worrying about photography or power. However, for those aiming for higher performance or photography needs, maybe sticking with a flagship would be better.",
     "sentiment": "pos",
     "pros": [
-        "6.6-inch Super AMOLED display with punchy colors and deep contrast"
+        "Modern Design",
+        "6.6-inch Super AMOLED Display",
+        "Stable Performance",
+        "Stereo Speakers",
+        "Clean UI",
+        "Reliable Camera"
     ],
     "cons": [
-        "no wireless charging, lack of charger inside"
+        "No wireless charging",
+        "Challenging Setup",
+        "Low-End Performance for Demanding Apps"
     ],
-    "reviewer_name": "John Smith"
+    "reviewer_name": "Sarah M."
 }
