@@ -83,3 +83,9 @@ json_schema={
 structured_output_model=model.with_structured_output(json_schema)
 response=structured_output_model.invoke(phone_review)
 print(response)
+
+
+import json
+# Save the JSON to a file
+with open("/home/shahanahmed/Zero_Shot_GenAI/Structured_output/phone_review_json.json", "w") as f:
+    json.dump(response, f, indent=4)  # `indent=4` is optional, for readability
