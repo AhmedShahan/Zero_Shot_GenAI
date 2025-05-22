@@ -21,3 +21,8 @@ print(new_student_dict["name"])
 
 
 student_json = new_student3.model_dump_json()
+
+
+# Save the JSON to a file
+with open("/home/shahanahmed/Zero_Shot_GenAI/Structured_output/student.json", "w") as f:
+    f.write(student_json)
