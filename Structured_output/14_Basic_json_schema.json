@@ -1,0 +1,28 @@
+{
+    "title": "Student Information",
+    "description": "A JSON schema for student information",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The name of the student"
+        },
+        "age": {
+            "type": "integer",
+            "description": "The age of the student"
+        },
+        "enrolled": {
+            "type": "boolean",
+            "description": "Enrollment status of the student"
+        },
+        "courses": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of courses the student is enrolled in"
+        }
+
+    },
+    "required": ["name", "age"]
+}
