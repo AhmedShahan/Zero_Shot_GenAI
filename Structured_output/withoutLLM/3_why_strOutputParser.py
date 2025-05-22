@@ -25,7 +25,8 @@ Message1 = [
 
 Message2=[
     ('system', "You are a helpful AI Report Summarizer."),
-    ('human', "Summarize the following report: {report} within 5 line"),
+    ('human', "Summarize the following report: {report} within lines"),
+    ### যদি আমরা সেকেন্ড মেসেজ এ কোনও কিছু পাঠাতে চাই তাহলে সেটার জপনয় Ruuanble lambda লাগবে। সেটা পরে দেখবো 
 ]
 
 # Create a ChatPromptTemplate
