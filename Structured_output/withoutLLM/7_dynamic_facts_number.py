@@ -5,6 +5,22 @@ from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 
 load_dotenv()
 
+
+model = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash",
+    temperature=0.7
+)
+
+
+message_template = [
+    ('system', "You are a helpful AI Fact Generator. You must respond with valid JSON only."),
+    ('human', f"""Generate a list of {{num_facts}} interesting facts about {{topic}}.
+
+{{format_instructions}}
+
+Important: Respond ONLY with valid JSON. Do not include any other text or explanation."""),
+]
+
 def create_dynamic_schema(num_facts):
     schema = [
         ResponseSchema(name="facts", description="List of facts about the topic"),
@@ -16,38 +32,24 @@ def create_dynamic_schema(num_facts):
         schema.append(ResponseSchema(name=f"Fact_{i}", description=f"Fact {i} about the topic"))
     return schema
 
-def generate_facts(topic, num_facts=3):
-    schema = create_dynamic_schema(num_facts)
-    parser = StructuredOutputParser.from_response_schemas(schema)
-    format_instructions = parser.get_format_instructions()
+topic="Artificial Intelligence"
+totalFacts=10
+schema = create_dynamic_schema(totalFacts)
+parser = StructuredOutputParser.from_response_schemas(schema)
+format_instructions = parser.get_format_instructions()
 
-    message_template = [
-        ('system', "You are a helpful AI Fact Generator. You must respond with valid JSON only."),
-        ('human', f"""Generate a list of {num_facts} interesting facts about {{topic}}.
+prompt = ChatPromptTemplate.from_messages(message_template)
 
-{{format_instructions}}
+chain = prompt | model | parser
 
-Important: Respond ONLY with valid JSON. Do not include any other text or explanation."""),
-    ]
+response = chain.invoke({
+    "topic": topic,
+    "num_facts": totalFacts,
+    "format_instructions": format_instructions
+})
 
-    prompt = ChatPromptTemplate.from_messages(message_template)
-
-    model = ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash",
-        temperature=0.7
-    )
-
-    chain = prompt | model | parser
-
-    response = chain.invoke({
-        "topic": topic,
-        "format_instructions": format_instructions
-    })
-
-    return response
 
 # 🔄 Example usage
-response = generate_facts("Artificial Intelligence", num_facts=5)
 # print(response)
 print("Facts:", response["facts"])
 print("*"*100)
@@ -60,5 +62,5 @@ print("*"*100)
 
 print("Facts:")
 # Extract individual facts
-for i in range(1, 6):
+for i in range(1, totalFacts+1):
     print(f"Fact {i}:", response[f"Fact_{i}"])
