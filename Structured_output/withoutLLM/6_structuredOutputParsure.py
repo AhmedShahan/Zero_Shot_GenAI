@@ -5,6 +5,24 @@ load_dotenv()
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 
+
+message_template = [
+    ('system', "You are a helpful AI Fact Generator. You must respond with valid JSON only."),
+    ('human', """Generate a list of 3 interesting facts about {topic}.
+
+{format_instructions}
+
+Important: Respond ONLY with valid JSON. Do not include any other text or explanation."""),
+]
+prompt = ChatPromptTemplate.from_messages(message_template)
+
+
+model = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash",
+    temperature=0.7  # Reduced temperature for more consistent formatting
+)
+
+
 # Define the response schema
 schema = [
     ResponseSchema(name="facts", description="List of facts about the topic"),
@@ -20,22 +38,6 @@ schema = [
 parser = StructuredOutputParser.from_response_schemas(schema)
 format_instructions = parser.get_format_instructions()
 
-# Define the message template with format instructions
-message_template = [
-    ('system', "You are a helpful AI Fact Generator. You must respond with valid JSON only."),
-    ('human', """Generate a list of 3 interesting facts about {topic}.
-
-{format_instructions}
-
-Important: Respond ONLY with valid JSON. Do not include any other text or explanation."""),
-]
-
-prompt = ChatPromptTemplate.from_messages(message_template)
-
-model = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
-    temperature=0.7  # Reduced temperature for more consistent formatting
-)
 
 chain = prompt | model | parser
 
