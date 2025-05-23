@@ -1,3 +1,14 @@
+'''
+Main Target is : 
+Generate a Report using LLM model with chat prompt template.
+The Report will be summarized in 10/ 20 User defined Lines Lines
+Structured the Summary with: 
+                    1. Keywords
+                    2. Summary
+                    3. Conclusion
+'''
+
+
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 load_dotenv()
