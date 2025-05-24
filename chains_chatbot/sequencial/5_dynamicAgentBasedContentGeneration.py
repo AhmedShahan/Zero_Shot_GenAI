@@ -55,8 +55,25 @@ print("Select the Agent Outline Generation")
 agents=['gemini-1.5-flash', 'command-r-plus', 'gemma3:latest', 'deepseek-r1:latest', 'llama3.2:1b']
 for i, agent in enumerate(agents, start=1):
     print(f"{i}. {agent}")
-agent_choice = int(input("Enter the number corresponding to your choice: ")) - 1
-print(f"You selected: {agents[agent_choice]}")
+agent_choice_outline = int(input("Enter the number corresponding to your choice: ")) - 1
+print(f"You selected: {agents[agent_choice_outline]} for Outline Generation")
+
+
+print("Select the Agent Expend Section Generation")
+agents=['gemini-1.5-flash', 'command-r-plus', 'gemma3:latest', 'deepseek-r1:latest', 'llama3.2:1b']
+for i, agent in enumerate(agents, start=1):
+    print(f"{i}. {agent}")
+agent_choice_expend = int(input("Enter the number corresponding to your choice: ")) - 1
+print(f"You selected: {agents[agent_choice_expend]} for Expend Generation")
+
+
+print("Select the Agent Expend Summarize")
+agents=['gemini-1.5-flash', 'command-r-plus', 'gemma3:latest', 'deepseek-r1:latest', 'llama3.2:1b']
+for i, agent in enumerate(agents, start=1):
+    print(f"{i}. {agent}")
+agent_choice_summarize = int(input("Enter the number corresponding to your choice: ")) - 1
+print(f"You selected: {agents[agent_choice_expend]} for Summarize")
+
 
 
 # Initialize the selected model (mock functions used)
@@ -89,8 +106,11 @@ model_initializers = {
 }
 
 # Initialize the selected model
-model = model_initializers[agents[agent_choice]]()
+model_outline = model_initializers[agents[agent_choice_outline]]()
+model_expend = model_initializers[agents[agent_choice_expend]]()
+model_summerize = model_initializers[agents[agent_choice_summarize]]()
 
-response= model.invoke("What is the latest news in AI?")
-print(f"Response from {agents[agent_choice]}: {response.content}")
-
+print("************************** Generating Content **************************")
+print("Selected Model for Outline Generation:", agents[agent_choice_outline])
+print("Selected Model for Expend Generation:", agents[agent_choice_expend])
+print("Selected Model for Summarize Generation:", agents[agent_choice_summarize])
