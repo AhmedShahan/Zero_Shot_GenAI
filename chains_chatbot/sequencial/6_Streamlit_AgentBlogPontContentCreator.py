@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # Title
-st.title("📝 AI BlogCraft: Dynamic Content Generator")
+st.title("📝 AI BlogCraft: Agentic Content Generator")
 
 # Session state
 if 'outline' not in st.session_state:
@@ -113,7 +113,7 @@ if generate_button and topic:
     try:
         # Step 1: Generate Outline
         outline_prompt = ChatPromptTemplate.from_messages([
-            ('system', "You are a helpful AI Blog Outline Generator. Provide a detailed outline for a blog post on the given topic in a clear, structured format with at least 4 main sections."),
+            ('system', "You are a helpful AI Blog Outline Generator. Provide a detailed outline for a blog post on the given topic in a clear, structured format with at least 4 main sections. Please Respond in Bangladesh native language."),
             ('human', "Generate an outline for a blog post on {topic}")
         ])
         outline_chain = outline_prompt | ModelInitializer(outline_model, outline_temp).initialize() | StrOutputParser()
@@ -125,7 +125,7 @@ if generate_button and topic:
         # Step 2: Expand Outline
         expand_placeholder.markdown("⏳ Generating Expanded Sections...")
         expand_prompt = ChatPromptTemplate.from_messages([
-            ('system', "You are a helpful AI Blog Expander. Expand each section of the provided blog outline into a detailed paragraph (100-150 words per section). Ensure the content is engaging, informative, and relevant to the topic."),
+            ('system', "You are a helpful AI Blog Expander. Expand each section of the provided blog outline into a detailed paragraph (100-150 words per section). Ensure the content is engaging, informative, and relevant to the topic. Please Respond in Bangladesh native language."),
             ('human', "Expand the following blog outline into detailed paragraphs: {outline}")
         ])
         expand_chain = expand_prompt | ModelInitializer(expand_model, expand_temp).initialize() | StrOutputParser()
@@ -136,8 +136,9 @@ if generate_button and topic:
 
         # Step 3: Summarize
         summary_placeholder.markdown("⏳ Generating Summary...")
+
         summary_prompt = ChatPromptTemplate.from_messages([
-            ('system', "You are a helpful AI Blog Summarizer. Provide a concise summary of the expanded blog post in 150-200 words, capturing the key points and essence of the content."),
+            ('system', "You are a helpful AI Blog Summarizer. Provide a concise summary of the expanded blog post in 150-200 words, capturing the key points and essence of the content. Please Respond in Bangladesh native language."),
             ('human', "Summarize the following blog post: {blog_post}")
         ])
         summary_chain = summary_prompt | ModelInitializer(summary_model, summary_temp).initialize() | StrOutputParser()
