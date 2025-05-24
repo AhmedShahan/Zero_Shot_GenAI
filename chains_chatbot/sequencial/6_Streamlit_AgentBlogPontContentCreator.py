@@ -85,19 +85,30 @@ if generate_button and topic:
     st.session_state.summary = ""
 
     # Display placeholders
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.subheader("🧠 Outline")
-        outline_placeholder = st.empty()
-        outline_placeholder.markdown("⏳ Generating Outline...")
-    with col2:
-        st.subheader("📝 Expanded Sections")
-        expand_placeholder = st.empty()
-        expand_placeholder.markdown("⏳ Waiting for Outline...")
-    with col3:
-        st.subheader("📚 Summary")
-        summary_placeholder = st.empty()
-        summary_placeholder.markdown("⏳ Waiting for Expanded Sections...")
+    # col1, col2, col3 = st.columns(3)
+    # with col1:
+    #     st.subheader("🧠 Outline")
+    #     outline_placeholder = st.empty()
+    #     outline_placeholder.markdown("⏳ Generating Outline...")
+    # with col2:
+    #     st.subheader("📝 Expanded Sections")
+    #     expand_placeholder = st.empty()
+    #     expand_placeholder.markdown("⏳ Waiting for Outline...")
+    # with col3:
+    #     st.subheader("📚 Summary")
+    #     summary_placeholder = st.empty()
+    #     summary_placeholder.markdown("⏳ Waiting for Expanded Sections...")
+    st.subheader("🧠 Outline")
+    outline_placeholder = st.empty()
+    outline_placeholder.markdown("⏳ Generating Outline...")
+
+    st.subheader("📝 Expanded Sections")
+    expand_placeholder = st.empty()
+    expand_placeholder.markdown("⏳ Waiting for Outline...")
+
+    st.subheader("📚 Summary")
+    summary_placeholder = st.empty()
+    summary_placeholder.markdown("⏳ Waiting for Expanded Sections...")
 
     try:
         # Step 1: Generate Outline
