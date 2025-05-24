@@ -12,6 +12,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.schema.runnable import RunnableSequence
 
 
+
 load_dotenv()
 model1 = ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
