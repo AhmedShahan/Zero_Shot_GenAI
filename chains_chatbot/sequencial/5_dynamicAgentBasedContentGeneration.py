@@ -58,3 +58,39 @@ for i, agent in enumerate(agents, start=1):
 agent_choice = int(input("Enter the number corresponding to your choice: ")) - 1
 print(f"You selected: {agents[agent_choice]}")
 
+
+# Initialize the selected model (mock functions used)
+class ModelInitializer(object):
+    def __init__(self, model_name):
+        self.model_name = model_name
+
+    def initialize(self):
+        if self.model_name == 'gemini-1.5-flash':
+            return ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.7)
+        elif self.model_name == 'command-r-plus':
+            return ChatCohere(model="command-r-plus", temperature=0.7)
+        elif self.model_name == 'gemma3:latest':
+            return ChatOllama(model="gemma3:latest", temperature=1.5)
+        elif self.model_name == 'deepseek-r1:latest':
+            return ChatOllama(model="deepseek-r1:latest", temperature=1.5)
+        elif self.model_name == 'llama3.2:1b':
+            return ChatOllama(model="llama3.2:1b", temperature=0.9)
+        else:
+            raise ValueError("Invalid model name")
+    
+
+# Dictionary to map selection to initialization function
+model_initializers = {
+    'gemini-1.5-flash': ModelInitializer('gemini-1.5-flash').initialize,
+    'command-r-plus': ModelInitializer('command-r-plus').initialize,
+    'gemma3:latest': ModelInitializer('gemma3:latest').initialize,
+    'deepseek-r1:latest': ModelInitializer('deepseek-r1:latest').initialize,
+    'llama3.2:1b': ModelInitializer('llama3.2:1b').initialize
+}
+
+# Initialize the selected model
+model = model_initializers[agents[agent_choice]]()
+
+response= model.invoke("What is the latest news in AI?")
+print(f"Response from {agents[agent_choice]}: {response.content}")
+
