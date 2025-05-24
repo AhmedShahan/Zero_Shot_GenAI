@@ -45,7 +45,7 @@ from langchain_ollama import ChatOllama
 from langchain_cohere import ChatCohere
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-
+from langchain.schema.runnable import RunnableSequence, RunnableLambda
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -114,3 +114,54 @@ print("************************** Generating Content **************************"
 print("Selected Model for Outline Generation:", agents[agent_choice_outline])
 print("Selected Model for Expend Generation:", agents[agent_choice_expend])
 print("Selected Model for Summarize Generation:", agents[agent_choice_summarize])
+
+
+#############################
+
+
+Message_outline=[
+    ('system',"You are a helpful AI Blog Outline Generator. Please Provide a Detailed outline of the following topic"),
+    ('human',"Generate an outline for a blog post on {topic}")
+]
+Message_Expender=[
+    ('system', "You are a helpful AI Blog Expander. Please Provide a Detailed, accurate and brief summary of the following blog post"),
+    ('human', "Summarize the blog post: {blog_post} in 10 lines")
+]
+
+Message_summary=[
+    ('system', "You are a helpful AI Blog Summarizer. Please Provide a Detailed, accurate and brief summary of the following blog post"),
+    ('human', "Summarize the blog post: {blog_post} in 20 lines")
+]
+
+
+prompt1=ChatPromptTemplate.from_messages(Message_outline)
+prompt2=ChatPromptTemplate.from_messages(Message_Expender)
+prompt3=ChatPromptTemplate.from_messages(Message_summary)
+
+parser=StrOutputParser()
+
+
+topic="Artificial Intelligence in Healthcare"
+
+def tap(tag):
+    return RunnableLambda(lambda x: (print(f"\n--- {tag} ---\n{x}\n"), x)[1])
+
+# Your full chain with print taps in between
+chain = (
+    prompt1 
+    | model_outline 
+    | parser 
+    | tap("Outline After Parser 1 (Outline)")
+    | prompt2 
+    | model_expend 
+    | parser 
+    | tap("Expoend After Parser 2 (Expanded Section)")
+    | prompt3 
+    | model_summerize 
+    | parser 
+    | tap("Summary After Parser 3 (Final Summary)")
+)
+
+chain.get_graph().print_ascii()
+result = chain.invoke({"topic": topic})
+print("Blog Post:", result)
