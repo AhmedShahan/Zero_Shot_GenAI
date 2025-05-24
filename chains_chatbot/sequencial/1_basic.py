@@ -24,6 +24,14 @@ Message=[
 prompt=ChatPromptTemplate.from_messages(Message)
 parser=StrOutputParser()
 chain=prompt | model | parser
+'''
+For chain in graph 
+install: pip install grandalf
+
+'''
+
+
+chain.get_graph().print_ascii()
 while True:
     question=input("Ask a question: ")
     if question.lower() in ["exit", "quit", "stop"]:
