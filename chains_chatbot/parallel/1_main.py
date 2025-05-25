@@ -12,6 +12,7 @@ from langchain_cohere import ChatCohere
 from langchain_ollama import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
+from langchain_core.runnables import RunnableParallel
 modelGemini= ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
     temperature=0.9
@@ -47,4 +48,27 @@ prompt_note=ChatPromptTemplate.from_messages(MessageNote)
 prompt_quiz=ChatPromptTemplate.from_messages(MessageQuiz)
 prompt_combined=ChatPromptTemplate.from_messages(MessageCombined)
 
+parser=StrOutputParser()
+report=prompt_report | modelGemini | parser
 
+# notes= report | modelCohera | parser
+# quiz= report | modelLlama| parser
+
+parallel_chain=RunnableParallel(
+    {
+        "notes_c": prompt_note | modelGemini | parser,
+        "quiz": prompt_quiz | modelLlama | parser
+
+    }
+)
+
+merge_chain=prompt_combined | modelGemini | parser
+
+chain= report | parallel_chain | merge_chain
+
+topic="Artificial Intelligence"
+response=chain.invoke(
+    {"topic":topic}
+)
+
+print(response)
