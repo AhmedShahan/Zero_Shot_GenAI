@@ -24,7 +24,7 @@ modelCohere=ChatCohere(
 
 Message_Content=[
     ('system', "You are AI Assitent which will Help to Analyze the Feedback and return the Positive or Negative Feedback."),
-    ('human', "Analyze the feedback and return the Positive or Negative Feedback for the following content {content} and feedback. If the feedback is positive, return 'Positive'. If the feedback is negative, return 'Negative'.")
+    ('human', "Analyze the feedback and return the Positive or Negative Feedback for the following content {content} and feedback.")
 ]
 
 
@@ -48,9 +48,20 @@ phone heats up after 20 minutes of use. On top of that, the fingerprint sensor i
 For this price, there are far better options on the market.
 """
 
+phone_feedback3 = """
+The Zephyr Lite is a decent mid-range phone with a few trade-offs. The performance is fine for everyday use, 
+but it’s not built for heavy gaming. The display is sharp, though the refresh rate is only 60Hz. 
+The camera takes good photos in daylight but struggles in low light. Battery life is average, 
+and it comes with minimal software bloat. It’s not exceptional, but it gets the job done.
+"""
+phone_feedback4 = """
+This phone? Nah fam. 🚫💀
+I turned it on and it already needed a break. Lagging like it’s 2012. Camera be making me look like a Minecraft character. 
+Battery dies faster than my social life on Mondays. And don’t even try gaming on this — unless you like pain. 😤
+"""
 
 response=chain.invoke({
-    "content": phone_feedback2
+    "content": phone_feedback4
 })
 print("Feedback Analysis for Phone 1:")
 print(response)
