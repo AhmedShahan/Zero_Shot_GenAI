@@ -15,6 +15,17 @@ from langchain_core.runnables import RunnableParallel
 from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 load_dotenv()
+import streamlit as st
+st.set_page_config(
+    page_title="AI BlogCraft",
+    layout="wide",
+)
+
+# st.set_page_config(page_title="Parallel Content Generation", page_icon=":robot_face:")
+st.title("Parallel Content Generation with Multiple LLMs")
+
+input_topic= st.text_input("Enter the topic for content generation:", "বাংলাদেশের ইতিহাস ও সংস্কৃতি")
+
 
 
 modelGemini= ChatGoogleGenerativeAI(
@@ -44,6 +55,11 @@ MessageAddition=[
 prompt_content= ChatPromptTemplate.from_messages(Message_Content)
 prompt_addition= ChatPromptTemplate.from_messages(MessageAddition)
 
+def Printing_c1():
+    st.write("Content from Model Gemini")
+
+
+
 parser=StrOutputParser()
 parallel_chain=RunnableParallel(
     {
@@ -56,16 +72,9 @@ chain=parallel_chain | prompt_addition | modelGemini | parser
 
 
 # chain.get_graph().print_ascii()
-
-response=chain.invoke({
-    "topic": "বাংলাদেশের ইতিহাস ও সংস্কৃতি"
-})
-print("************************** Generated Content **************************")
-print(response)
-
-
-
-
-
-
+if st.button("Generate Content"):
+    with st.spinner("Generating content..."):
+        response = chain.invoke({
+            "topic": input_topic
+        })
 
