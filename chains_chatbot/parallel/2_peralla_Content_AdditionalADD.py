@@ -21,23 +21,13 @@ modelGemini= ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
     temperature=0.9,
 )
-modelCohere= ChatCohere(
+modelCohere_r_plus= ChatCohere(
     model="command-r-plus",
-    temperature=1.5,
+    temperature=0.9,
 )
-modelGemma2= ChatOllama(
-    model="gemma3:latest",
-    temperature=1.5,
-)
-
-modellqwen= ChatOllama(
-    model="qwen2.5-coder:latest",
-    temperature=1.5,
-)
-
-modelDeepseek=ChatOllama(
-    model="deepseek-r1:latest",
-    temperature=1.5,
+modelCohere_r= ChatCohere(
+    model="command-r",
+    temperature=0.9,
 )
 
 
@@ -48,7 +38,7 @@ Message_Content=[
 
 MessageAddition=[
     ('system',"You are an Advance AI Assisten for Content Aggrigation. Please Aggtigate all the contents in sequencial Manner. Please Make sure that All the contents are perfectly on topic and sequencial. Response your answer in Bangla Native Language"),
-    ('human', "Aggtigate the content as follows {content1}, {content2}, {content3}, {content4}, {content5}")
+    ('human', "Aggtigate the content as follows {content1}, {content2}, {content3}")
 ]
 
 prompt_content= ChatPromptTemplate.from_messages(Message_Content)
@@ -58,16 +48,20 @@ parser=StrOutputParser()
 parallel_chain=RunnableParallel(
     {
         "content1": prompt_content | modelGemini | parser,
-        "content2": prompt_content | modelCohere | parser,
-        "content3": prompt_content | modelGemma2 | parser,
-        "content4": prompt_content | modellqwen | parser,
-        "content5": prompt_content | modelDeepseek | parser
+        "content2": prompt_content | modelCohere_r_plus | parser,
+        "content3": prompt_content | modelCohere_r | parser,
     }
 )
 chain=parallel_chain | prompt_addition | modelGemini | parser
 
 
-chain.get_graph().print_ascii()
+# chain.get_graph().print_ascii()
+
+response=chain.invoke({
+    "topic": "বাংলাদেশের ইতিহাস ও সংস্কৃতি"
+})
+print("************************** Generated Content **************************")
+print(response)
 
 
 
