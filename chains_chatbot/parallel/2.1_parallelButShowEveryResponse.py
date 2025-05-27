@@ -28,7 +28,7 @@ parser = StrOutputParser()
 
 # Simple tap function
 def tap(tag):
-    return RunnableLambda(lambda x: (print(f"\n--- {tag} ---\n{x}\n"), x)[1])
+    return RunnableLambda(lambda x: (print(f"\n--- {tag} ---\n{x}\n")))
 
 # Parallel generation with taps
 parallel_chain = RunnableParallel({
