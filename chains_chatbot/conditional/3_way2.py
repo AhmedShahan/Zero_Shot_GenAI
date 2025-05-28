@@ -27,8 +27,20 @@ Message_Content=[
     ('human', "Analyze the feedback and return the Positive or Negative Feedback for the following content {content} and feedback.{format_instructions}"),
 ]
 
+Message_positive=[
+    ('system',"You are an AI Assistent for Generating Context in Positive Response. Please Response that the follow context is Positive Sentiment"),
+    ('human','Please Provide and Positive Sentiment Contenx of {context}')
+]
+
+Message_negative=[
+    ('system',"You are an AI Assistent for Generating Context in Negative Response. Please Response that the follow context is Negative Sentiment"),
+    ('human','Please Provide and Negative Sentiment Contenx of {context}')
+]
 
 prompt=ChatPromptTemplate.from_messages(Message_Content)
+prompt_positive=ChatPromptTemplate.from_messages(Message_positive)
+prompt_negative=ChatPromptTemplate.from_messages(Message_negative)
+
 parser=StrOutputParser()
 
 
@@ -71,13 +83,28 @@ class Sentiment(BaseModel):
 parser2=PydanticOutputParser(pydantic_object=Sentiment)
 
 
-chain= prompt | modelGemini | parser2
+Classifier_chain= prompt | modelGemini | parser2
 
 
-response=chain.invoke({
-    "content": phone_feedback4,
-    "format_instructions": parser2.get_format_instructions(),
-})
+# response=Classifier_chain.invoke({
+#     "content": phone_feedback4,
+#     "format_instructions": parser2.get_format_instructions(),
+# })
 
-print("Feedback Analysis for Phone 1:")
-print(response)
+from langchain_core.runnables import RunnableBranch, RunnableLambda
+branch_chain = RunnableBranch(
+    (lambda x:x.sentiment == 'Pos', prompt_positive | modelGemini | parser),
+    (lambda x:x.sentiment == 'Neg', prompt_negative | modelGemini | parser),
+    RunnableLambda(lambda x: "could not find sentiment")
+)
+
+
+chain = Classifier_chain | branch_chain
+
+print(chain.invoke({
+    "content": phone_feedback3,
+    "format_instructions": parser2.get_format_instructions()
+}))
+
+
+chain.get_graph().print_ascii()
