@@ -1,7 +1,7 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
 from dotenv import load_dotenv
 
 # Load environment variables (e.g., Google API key)
@@ -33,21 +33,40 @@ parser = StrOutputParser()
 
 # Create the joke generation chain
 joke_chain = promptJoke | model | parser
-explanation_chain=promptExplain | model | parser 
 
-# Create the combined chain using RunnableParallel
-final_chain=joke_chain | explanation_chain
+# Create a function to prepare explanation input
+def prepare_explanation_input(inputs):
+    return {
+        "joke": inputs["joke"],
+        "level": inputs["level"], 
+        "lines": inputs["lines"]
+    }
 
-# Example invocation with user inputs
-user_input = {
-    "topic": "Cat",
-    "level": "Beginner",
-    "lines": "5"
-}
+# Create the explanation chain
+explanation_chain = RunnableLambda(prepare_explanation_input) | promptExplain | model | parser
 
-# Run the chain
-response = final_chain.invoke(user_input)
+# Create the complete chain that generates joke and then explains it
+complete_chain = RunnableParallel(
+    joke=joke_chain,
+    explanation=RunnableParallel(
+        joke=joke_chain,
+        level=RunnablePassthrough(),
+        lines=RunnablePassthrough()
+    ) | explanation_chain
+)
 
-# Print the results
-print("Joke:", response["joke"])
-print("Explanation:", response["explanation"])
+# Example usage:
+result = complete_chain.invoke({
+    "topic": "programming", 
+    "level": "beginner", 
+    "lines": "3"
+})
+
+print(result)
+# 
+
+# Output will be:
+# {
+#     "joke": "Generated joke here...",
+#     "explanation": "Explanation of the joke here..."
+# }
