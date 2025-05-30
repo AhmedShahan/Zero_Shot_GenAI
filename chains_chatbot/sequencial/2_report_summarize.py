@@ -57,5 +57,5 @@ chain: RunnableSequence = (
 
 chain.get_graph().print_ascii()
 
-result = chain.invoke({"topic": "Recent advancements in Quantum Computing"})
+result = chain.invoke({"topic": "Recent advancements in Quantum Computing","lines":20})
 print(result)
