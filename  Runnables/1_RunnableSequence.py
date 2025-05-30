@@ -44,7 +44,7 @@ from langchain_cohere import ChatCohere
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain.schema.runnable import RunnableSequence
+from langchain_core.runnables import RunnableSequence
 from langchain_ollama import ChatOllama
 
 load_dotenv()
