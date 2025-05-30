@@ -45,14 +45,17 @@ def prepare_explanation_input(inputs):
 # Create the explanation chain
 explanation_chain = RunnableLambda(prepare_explanation_input) | promptExplain | model | parser
 
-# Create the complete chain that generates joke and then explains it
-complete_chain = RunnableParallel(
+# Step 1: Generate joke and pass through other parameters
+step1_chain = RunnableParallel(
     joke=joke_chain,
-    explanation=RunnableParallel(
-        joke=joke_chain,
-        level=RunnablePassthrough(),
-        lines=RunnablePassthrough()
-    ) | explanation_chain
+    level=RunnablePassthrough(),
+    lines=RunnablePassthrough()
+)
+
+# Step 2: Create final output with joke and explanation
+complete_chain = step1_chain | RunnableParallel(
+    joke=lambda x: x["joke"],  # Pass the generated joke
+    explanation=explanation_chain  # Use the same joke for explanation
 )
 
 # Example usage:
@@ -61,10 +64,8 @@ result = complete_chain.invoke({
     "level": "beginner", 
     "lines": "3"
 })
-
 print(result)
 # 
-
 # Output will be:
 # {
 #     "joke": "Generated joke here...",
