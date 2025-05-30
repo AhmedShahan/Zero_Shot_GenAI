@@ -2,6 +2,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
+from langchain_cohere import ChatCohere
 from dotenv import load_dotenv
 
 # Load environment variables (e.g., Google API key)
@@ -23,37 +24,28 @@ promptJoke = ChatPromptTemplate.from_messages(MessageJoke)
 promptExplain = ChatPromptTemplate.from_messages(MessageExplanation)
 
 # Initialize the model
-model = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
-    temperature=0.9
-)
+# model = ChatGoogleGenerativeAI(
+#     model="gemini-1.5-flash",
+#     temperature=1.5)
+model=ChatCohere(model="command-r-plus")
 
 # Initialize the output parser
 parser = StrOutputParser()
 
 # Create the joke generation chain
-joke_chain = promptJoke | model | parser
-
-# Create a function to prepare explanation input
-def prepare_explanation_input(inputs):
-    return {
-        "joke": inputs["joke"],
-        "level": inputs["level"], 
-        "lines": inputs["lines"]
-    }
-
-# Create the explanation chain
-explanation_chain = RunnableLambda(prepare_explanation_input) | promptExplain | model | parser
-
-# Step 1: Generate joke and pass through other parameters
-step1_chain = RunnableParallel(
-    joke=joke_chain,
+joke_chain = RunnableParallel(
+    joke=promptJoke | model | parser,
     level=RunnablePassthrough(),
     lines=RunnablePassthrough()
 )
 
+
+explanation_chain=promptExplain | model | parser
+
+
+
 # Step 2: Create final output with joke and explanation
-complete_chain = step1_chain | RunnableParallel(
+complete_chain = joke_chain | RunnableParallel(
     joke=lambda x: x["joke"],  # Pass the generated joke
     explanation=explanation_chain  # Use the same joke for explanation
 )
@@ -65,9 +57,3 @@ result = complete_chain.invoke({
     "lines": "3"
 })
 print(result)
-# 
-# Output will be:
-# {
-#     "joke": "Generated joke here...",
-#     "explanation": "Explanation of the joke here..."
-# }
