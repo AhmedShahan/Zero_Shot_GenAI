@@ -6,3 +6,7 @@ loader=PyPDFLoader('/home/shahanahmed/Zero_Shot_GenAI/RAG/Document_loader/docume
 docs=loader.load()
 
 print(docs)
+print("Type of the Docs: ",type(docs))
+
+print("Docs Content: ",docs[0].page_content)
+print("Metadata: ",docs[0].metadata)
