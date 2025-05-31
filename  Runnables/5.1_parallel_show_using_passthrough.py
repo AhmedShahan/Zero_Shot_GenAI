@@ -27,49 +27,35 @@ Message_Addition = [
 prompt_content = ChatPromptTemplate.from_messages(Message_Content)
 prompt_addition = ChatPromptTemplate.from_messages(Message_Addition)
 parser = StrOutputParser()
-
 # Define individual chains
 chain1 = prompt_content | modelGemini | parser
 chain2 = prompt_content | modelCohere_r_plus | parser
 chain3 = prompt_content | modelCohere_r | parser
 
-# Define aggregation chain to use outputs of other chains
-def format_aggregation_inputs(inputs):
-    try:
-        return {
-            "content1": inputs.get("content1", "Error: Content1 not generated"),
-            "content2": inputs.get("content2", "Error: Content2 not generated"),
-            "content3": inputs.get("content3", "Error: Content3 not generated")
-        }
-    except Exception as e:
-        print(f"Error in format_aggregation_inputs: {str(e)}")
-        raise
 
-aggregation_chain = format_aggregation_inputs | prompt_addition | modelGemini | parser
-
-# Combine chains in parallel
-parallel_chain = RunnableParallel({
-    "content1": chain1,
-    "content2": chain2,
-    "content3": chain3,
-    "aggregate": aggregation_chain
+# Define content generation chain
+content_chain = RunnableParallel({
+    "content1": prompt_content | modelGemini | parser,
+    "content2": prompt_content | modelCohere_r_plus | parser,
+    "content3": prompt_content | modelCohere_r | parser
 })
 
-# Invoke with error handling
+# Define aggregation chain
+# RunnablePassthrough passes the entire input dictionary to prompt_addition
+aggregation_chain = prompt_addition | modelGemini | parser
+
+# Combine chains
+parallel_chain = RunnableParallel({
+    "contents": content_chain,  # Outputs {"content1": ..., "content2": ..., "content3": ...}
+    "aggregate": content_chain | aggregation_chain  # Pass content_chain output to aggregation
+})
+
+
+# Invoke and get result
 try:
     response = parallel_chain.invoke({"topic": "AI"})
+    # print(response["content_gemini"]["content2"])  # Access content2 from content_gemini
     # print(response)
+    print(response['contents'])
 except Exception as e:
-    print(f"Error during invocation: {str(e)}")
-    traceback.print_exc()
-
-# Test chain1 independently
-# print("\nTesting chain1 independently:")
-# try:
-#     result = chain1.invoke({"topic": "AI"})
-#     print("Chain1 output:", result)
-# except Exception as e:
-#     print(f"Error in chain1: {str(e)}")
-#     traceback.print_exc()
-
-print(response["content2"])
+    print(f"Error: {e}")
