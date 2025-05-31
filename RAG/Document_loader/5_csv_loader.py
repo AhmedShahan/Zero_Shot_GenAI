@@ -16,10 +16,10 @@ Unit: Billion USD
 Year: 2025
 Remarks: Estimated nominal GDP
 '''
-
+contents=[]
 ## Print All the contents
-
 for i in range (len(docs)):
-    print(docs[i].page_content)
-    print("*************")
-
+    content=docs[i].page_content
+    # print(content)
+    contents.append(content)
+print(contents)
