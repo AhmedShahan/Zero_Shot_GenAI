@@ -35,4 +35,12 @@ result= chain.invoke({
     "topic":topic
 })
 
-print(result)
+def wordCount(content):
+    return len(content.split())
+
+### Making the wordCount function to runnable
+
+runnable_wordCount=RunnableLambda(wordCount)
+
+result2=runnable_wordCount.invoke("What is the Name of Bangladesh?")
+print(result2)
