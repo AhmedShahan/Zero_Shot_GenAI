@@ -27,20 +27,31 @@ parser = StrOutputParser()
 model = ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
     temperature=1.5)
-chain=promptContent | model | parser
+chainJoke=promptContent | model | parser
 
 topic="Artificial Intelligent"
 
-result= chain.invoke({
-    "topic":topic
-})
+
 
 def wordCount(content):
     return len(content.split())
 
-### Making the wordCount function to runnable
 
-runnable_wordCount=RunnableLambda(wordCount)
 
-result2=runnable_wordCount.invoke("What is the Name of Bangladesh?")
-print(result2)
+# result2=runnable_wordCount.invoke("What is the Name of Bangladesh?")
+# print(result2)
+
+
+parallel_chain=RunnableParallel(
+    {"content": RunnablePassthrough(),
+     "words": RunnableLambda(wordCount)
+    }
+)
+
+chain=chainJoke | parallel_chain 
+
+result=chain.invoke({
+    "topic": topic
+})
+
+print(result)
