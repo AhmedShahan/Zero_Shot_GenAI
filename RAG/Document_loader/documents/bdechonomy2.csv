@@ -1,0 +1,18 @@
+Indicator,Value,Unit,Year,Remarks
+GDP,460,"Billion USD",2025,"Estimated nominal GDP"
+GDP Growth Rate,5.6,"%",2025,"Projected by World Bank"
+Inflation Rate,7.8,"%",2025,"Rising due to import costs and currency devaluation"
+Unemployment Rate,4.5,"%",2025,"Estimated by BBS"
+Foreign Exchange Reserves,21,"Billion USD",2025,"Declined due to import bills"
+Remittances,22,"Billion USD",2025,"Steady inflow from overseas workers"
+Exports,52,"Billion USD",2025,"Mainly from RMG sector"
+Imports,72,"Billion USD",2025,"Trade deficit persists"
+Trade Balance,-20,"Billion USD",2025,"Negative balance"
+Currency Exchange Rate,118,"BDT/USD",2025,"Taka continues to depreciate"
+Poverty Rate,18.7,"%",2025,"Improving slowly post-pandemic"
+
+Category,Rank,Source,Year
+Ease of Doing Business,168,"World Bank",2020
+Corruption Perception Index,147,"Transparency International",2024
+Global Innovation Index,105,"WIPO",2024
+Human Development Index,129,"UNDP",2024
