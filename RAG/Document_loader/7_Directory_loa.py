@@ -16,3 +16,8 @@ print(len(docs))
 
 print(docs[36].page_content)
 ## 37 Page এর সকল কন্টেন্ট 
+
+
+for document in docs:
+    print("Page Content\n")
+    print(document.page_content)
