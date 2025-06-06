@@ -1,0 +1,11 @@
+Title: Economic Indicators for Bangladesh
+Source: World Bank and Local Estimates
+Description: This file contains key economic indicators for 2025.
+
+Indicator,Value,Unit,Year,Remarks
+GDP,460,"Billion USD",2025,"Estimated nominal GDP"
+GDP Growth Rate,5.6,"%",2025,"Projected by World Bank"
+Inflation Rate,7.8,"%",2025,"Rising due to import costs"
+Unemployment Rate,4.5,"%",2025,"Estimated by BBS"
+
+Note: Data is subject to change based on future economic updates.
