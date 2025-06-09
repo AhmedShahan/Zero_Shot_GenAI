@@ -20,8 +20,9 @@ All the document page metadata will print will print simultinously. First it wil
 
 docs=loader.lazy_load()
 
-for document in docs:
-    print(document.metadata)
+# for document in docs:
+#     print(document.metadata)
+print(docs)
 
 '''
 This is print always. Means one page will load and print the metadat, and again unload this page. Same way the process will continue upto the last page. 
