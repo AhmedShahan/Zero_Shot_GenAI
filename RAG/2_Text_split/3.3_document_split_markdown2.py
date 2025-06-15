@@ -1,8 +1,7 @@
-from langchain_text_splitters import MarkdownHeaderTextSplitter
-import re
+from langchain.text_splitter import MarkdownHeaderTextSplitter
 
-text = '''
-
+# The Markdown text you want to split.
+text='''
 # My Markdown Document
 
 ## Introduction
@@ -25,20 +24,29 @@ def greet(name):
     return f"Hello, {name}!"
 
 print(greet("World"))
+```
 '''
 
-splitter = MarkdownHeaderTextSplitter(headers_to_split_on=[("#", "header1"), ("##", "header2")])
+# Define the headers to split on.
+# In this case, we are splitting on level 1 (#) and level 2 (##) headings.
+headers_to_split_on = [
+    ("#", "Header 1"),
+    ("##", "Header 2"),
+]
 
-chunks = splitter.split_text(text)
+# Create the splitter instance, keeping the headers in the content.
+markdown_splitter = MarkdownHeaderTextSplitter(
+    headers_to_split_on=headers_to_split_on, strip_headers=False
+)
 
-# The chunks lose the header lines, so we re-extract headers from text and prepend manually
-# Extract headers with regex
-headers = re.findall(r'^(#{1,2} .*)$', text, flags=re.MULTILINE)
+# Split the text. The output is a list of Document objects.
+chunks = markdown_splitter.split_text(text)
 
-# Now prepend header to each chunk content, assuming chunk i corresponds to header i
+# Print each chunk's content and metadata.
 for i, chunk in enumerate(chunks):
-    header = headers[i] if i < len(headers) else ''
-    content = f"{header}\n{chunk.page_content}"
-    print(f"Chunk {i}:")
-    print(content)
-    print("-" * 50)
+    print(f"--- Chunk {i+1} ---")
+    print("Content:")
+    print(chunk.page_content)
+    # print("\nMetadata:")
+    # print(chunk.metadata)
+    print("*"*50)
