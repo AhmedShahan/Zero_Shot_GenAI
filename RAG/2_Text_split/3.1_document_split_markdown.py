@@ -38,10 +38,15 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.text_splitter import Language
 
 splitter = RecursiveCharacterTextSplitter.from_language(
-    language=Language.PYTHON,
+    language=Language.MARKDOWN,
     chunk_size=200,
     chunk_overlap=0
 )
 
 chunk=splitter.split_text(text)
-print(chunk)
+# print(chunk)
+
+for i, docs in enumerate(chunk):
+    print("Chunk ",i)
+    print(docs)
+    print("*"*50)
