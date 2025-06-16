@@ -48,8 +48,11 @@ vector_store=Chroma(
 )
 
 vector_store.add_documents(docs)
-query = "Who is  Sakib al hasan"
-results = vector_store.similarity_search(query, k=2)
 
-for doc in results:
-    print(doc.page_content)
+storedElement=vector_store.get(include=['embeddings','documents','metadatas'])
+print(storedElement)
+# query = "Who is  Sakib al hasan"
+# results = vector_store.similarity_search(query, k=2)
+
+# for doc in results:
+#     print(doc.page_content)
