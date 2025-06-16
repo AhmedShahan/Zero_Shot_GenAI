@@ -63,6 +63,9 @@ result2=vector_store.similarity_search_with_score(query, k=2)
 
 # print(result2)
 
-for document in  result2:
-    print(document[0].page_content)
-    print("*"*50)
+# for document in  result2:
+#     print(document[0].page_content)
+#     print("*"*50)
+
+
+##  Meta data filtering
