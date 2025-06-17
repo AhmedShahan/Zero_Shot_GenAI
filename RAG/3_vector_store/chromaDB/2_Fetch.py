@@ -41,11 +41,8 @@ embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word
 
 
 
-vector_store=Chroma(
-    embedding_function=embedding, 
-    # persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/chromaDB",
-    collection_name="sample"
-)
+vector_store=Chroma.from_documents(docs,embedding=embedding)
+
 
 vector_store.add_documents(docs)
 
@@ -56,8 +53,8 @@ query = "Who is  Sakib al hasan"
 
 results = vector_store.similarity_search(query, k=2)
 
-# for doc in results:
-#     print(doc.page_content)
+for doc in results:
+    print(doc.page_content)
 
 result2=vector_store.similarity_search_with_score(query, k=2)
 

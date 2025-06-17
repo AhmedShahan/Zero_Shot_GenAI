@@ -18,12 +18,12 @@ vector_store=Chroma(
 storedElement=vector_store.get(include=['embeddings','documents','metadatas'])
 print(storedElement)
 
-# query = "Who is  Sakib al hasan"
+query = "A fast bowler"
 
-# results = vector_store.similarity_search(query, k=2)
+results = vector_store.similarity_search(query, k=2)
 
-# # for doc in results:
-# #     print(doc.page_content)
+for doc in results:
+    print(doc.page_content)
 
 # result2=vector_store.similarity_search_with_score(query, k=2)
 
