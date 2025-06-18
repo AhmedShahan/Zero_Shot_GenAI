@@ -76,7 +76,7 @@ players_store.add_documents(players)
 
 scientists_store = Chroma(
     embedding_function=embedding,
-    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/chromaDB",
+    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/7_chromaDB/database",
     collection_name="scientists"  # name this second collection "scientists"
 )
 scientists_store.add_documents(scientist)
