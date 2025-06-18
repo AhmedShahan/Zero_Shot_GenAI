@@ -12,7 +12,7 @@ embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word
 # Optional: Load the index later like this
 # Load the FAISS index from disk safely
 loaded_vectorstore = Annoy.load_local(
-    "/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/2_Annoy",
+    folder_path="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/2_Annoy",
     embeddings=embedding,
     allow_dangerous_deserialization=True  # Add this line
 )
