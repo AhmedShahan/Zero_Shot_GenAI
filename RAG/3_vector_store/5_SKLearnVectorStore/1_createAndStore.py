@@ -1,11 +1,12 @@
-from langchain_community.vectorstores import DocArrayInMemorySearch
+from langchain_community.vectorstores import SKLearnVectorStore
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.schema import Document
+import numpy as np
 
-'''
-pip install docarray
-'''
+# Step 1: Load embedding model
+embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word_embeddings_levy_dependency")
 
+# Step 2: Define documents
 docs = [
     Document(
         page_content="Shakib Al Hasan: One of the best all-rounders in the world, known for his consistent performances with both bat and ball. A pillar of the Bangladesh cricket team for over a decade.",
@@ -32,14 +33,22 @@ docs = [
 # Step 2: Load the embedding model
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word_embeddings_levy_dependency")
 
-# Step 3: Create the in-memory vector store
-vectorstore = DocArrayInMemorySearch.from_documents(docs, embedding)
+# Step 4: Create the vector store
+working_dir="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/5_SKLearnVectorStore/database"
+vectorstore = SKLearnVectorStore(
+    embedding=embedding,
+    persist_path=working_dir,  
+)
+vectorstore.add_documents(docs)
 
-# Step 4: Perform a similarity search
+# Step 5: Search with a query
 query = "Who is a strong middle order batsman?"
+
 results = vectorstore.similarity_search(query, k=2)
 
-# Step 5: Show results
+
+
+# Step 6: Show results
 for res in results:
     print("Matched Content:", res.page_content)
     print("Team:", res.metadata.get('team', 'N/A'))
