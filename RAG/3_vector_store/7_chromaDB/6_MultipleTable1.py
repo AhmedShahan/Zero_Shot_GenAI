@@ -65,18 +65,18 @@ scientist=[sci1,sci2,sci3,sci4,sci5]
 
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word_embeddings_levy_dependency")
 
-
+working_dir="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/7_chromaDB/database"
 
 players_store = Chroma(
     embedding_function=embedding,
-    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/chromaDB",
+    persist_directory=working_dir,
     collection_name="players"  # name this collection "players"
 )
 players_store.add_documents(players)
 
 scientists_store = Chroma(
     embedding_function=embedding,
-    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/7_chromaDB/database",
+    persist_directory=working_dir,
     collection_name="scientists"  # name this second collection "scientists"
 )
 scientists_store.add_documents(scientist)

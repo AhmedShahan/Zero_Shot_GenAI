@@ -8,13 +8,13 @@ embedding = HuggingFaceEmbeddings(
 # Load existing collections
 players_store = Chroma(
     embedding_function=embedding,
-    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/chromaDB",
+    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/chromaDB/database",
     collection_name="players"
 )
 
 scientists_store = Chroma(
     embedding_function=embedding,
-    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/chromaDB",
+    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/chromaDB/database",
     collection_name="scientists"
 )
 
