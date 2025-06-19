@@ -40,11 +40,9 @@ work_dir = "/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/3_DocArrayHnSea
 
 # Step 4: Create the vector store
 # vectorstore = DocArrayHnswSearch.from_documents(docs, embedding, work_dir=work_dir,n_dim=300)
-vectorstore=DocArrayHnswSearch(
-    embedding=embedding
-)
+vectorstore=DocArrayHnswSearch.from_documents(embedding=embedding, documents=docs)
 
-vectorstore.add_documents(docs)
+# vectorstore.add_documents(docs)
 
 # # Step 5: Save is implicit; search right away
 query = "Who is a powerful middle order batsman?"
