@@ -38,12 +38,11 @@ docs = [doc1, doc2, doc3, doc4, doc5]
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word_embeddings_levy_dependency")
 
 # Step 3: Create FAISS vector store
-vectorstore=FAISS(
-    embedding_function=embedding,
-)
-# vectorstore = FAISS.from_documents(docs, embedding)
-# vectorstore = FAISS.add_documents(docs, embedding)
-vectorstore.add_documents(docs)
+# vectorstore=FAISS(
+#     embedding_function=embedding,
+# )
+vectorstore = FAISS.from_documents(docs, embedding)
+ 
 
 
 
