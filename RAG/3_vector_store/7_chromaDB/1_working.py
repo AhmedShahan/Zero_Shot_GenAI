@@ -41,10 +41,12 @@ embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word
 
 
 
-vector_store=Chroma(
-    embedding_function=embedding, 
-    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/chromaDB",
-    collection_name="sample"
+vector_store=Chroma.from_documents(
+    
+    persist_directory="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/7_chromaDB/database",
+    collection_name="sample",
+    documents=docs,
+    embedding=embedding
 )
 
-vector_store.add_documents(docs)
+# vector_store.add_documents(docs)
