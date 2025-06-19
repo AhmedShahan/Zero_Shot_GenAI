@@ -7,8 +7,8 @@ from langchain_community.vectorstores import SQLiteVSS
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word_embeddings_levy_dependency")
 
 # Step 2: Specify the database file path
-db_file = "/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/6_SQLiteVSS/players.db"
-table_name = "players"
+db_file = "/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/6_SQLiteVSS/database"
+table_name = "players.db"
 
 # Step 3: Create a SQLite connection
 try:
