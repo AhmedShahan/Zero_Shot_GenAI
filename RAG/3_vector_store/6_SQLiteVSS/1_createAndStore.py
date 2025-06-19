@@ -31,20 +31,17 @@ docs = [doc1, doc2, doc3, doc4, doc5]
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word_embeddings_levy_dependency")
 
 # Step 3: Ensure the directory exists and use an absolute path for the database
-db_dir = "/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/SQLiteVSS"
+db_dir = "/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/6_SQLiteVSS/database"
 db_file = os.path.join(db_dir, "players.db")
 
 # Create the directory if it doesn't exist
 os.makedirs(db_dir, exist_ok=True)
 
 # Step 4: Initialize SQLiteVSS vector store
-try:
-    db = SQLiteVSS.from_documents(
+vectorStore=SQLiteVSS.from_documents(
         documents=docs,
         embedding=embedding,
         table="players",
         db_file=db_file
-    )
-    print("Documents successfully stored in SQLiteVSS vector store.")
-except Exception as e:
-    print(f"Error creating vector store: {e}")
+
+)
