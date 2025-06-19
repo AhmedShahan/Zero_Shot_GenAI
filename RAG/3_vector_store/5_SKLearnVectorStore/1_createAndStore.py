@@ -34,12 +34,14 @@ docs = [
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word_embeddings_levy_dependency")
 
 # Step 4: Create the vector store
-working_dir="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/5_SKLearnVectorStore/database"
-vectorstore = SKLearnVectorStore(
-    embedding=embedding,
-    persist_path=working_dir,  
-)
-vectorstore.add_documents(docs)
+# working_dir="/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/5_SKLearnVectorStore/database"
+# vectorstore = SKLearnVectorStore(
+#     embedding=embedding,
+#     persist_path=working_dir,  
+# )
+# vectorstore.add_documents(docs)
+vectorstore=SKLearnVectorStore.from_documents(documents=docs, embedding=embedding)
+
 # vectorstore.save_local("/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/FAISS/faiss_db")
 
 # Step 5: Search with a query

@@ -12,10 +12,12 @@ docs = [
 ]
 
 # ✅ Create the vectorstore using `from_documents()` first with empty list
-vectorstore = DocArrayInMemorySearch.from_documents([], embedding=embedding)
+# vectorstore = DocArrayInMemorySearch.from_documents([], embedding=embedding)
+vectorstore = DocArrayInMemorySearch.from_documents(embedding=embedding, documents=docs)
+
 
 # ➕ Then add documents using add_documents()
-vectorstore.add_documents(docs)
+# vectorstore.add_documents(docs)
 
 # 🔍 Perform a similarity search
 query = "Who is a famous cricketer?"
