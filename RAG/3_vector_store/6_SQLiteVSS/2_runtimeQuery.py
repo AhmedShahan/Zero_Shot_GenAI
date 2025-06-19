@@ -42,6 +42,11 @@ vectorStore=SQLiteVSS.from_documents(
         documents=docs,
         embedding=embedding,
         table="players",
-        db_file=db_file
+        # db_file=db_file
 
 )
+query = "Who is a key bowler for Bangladesh?"
+
+result=vectorStore.similarity_search_with_score(query=query)
+print(result)
+
