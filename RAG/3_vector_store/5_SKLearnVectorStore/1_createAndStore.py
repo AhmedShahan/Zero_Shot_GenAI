@@ -39,7 +39,7 @@ vectorstore = SKLearnVectorStore(
     embedding=embedding,
     persist_path=working_dir,  
 )
-# vectorstore.add(docs)
+vectorstore.add_documents(docs)
 # vectorstore.save_local("/home/shahanahmed/Zero_Shot_GenAI/RAG/3_vector_store/FAISS/faiss_db")
 
 # Step 5: Search with a query

@@ -1,46 +1,25 @@
 from langchain_community.vectorstores import DocArrayInMemorySearch
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.schema import Document
+from langchain.embeddings import HuggingFaceEmbeddings
 
-'''
-pip install docarray
-'''
+# Embedding function
+embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
+# Dummy docs
 docs = [
-    Document(
-        page_content="Shakib Al Hasan: One of the best all-rounders in the world, known for his consistent performances with both bat and ball. A pillar of the Bangladesh cricket team for over a decade.",
-        metadata={"team": "Fortune Barishal (BPL)"}
-    ),
-    Document(
-        page_content="Litton Das: A stylish right-handed opener and dependable wicketkeeper. Litton is known for his elegant strokeplay and has become a regular in all formats for Bangladesh.",
-        metadata={"team": "Comilla Victorians (BPL)"}
-    ),
-    Document(
-        page_content="Mustafizur Rahman: Popularly known as The Fizz he is famous for his deceptive cutters and deadly yorkers. A match-winner in death overs.",
-        metadata={"team": "Chennai Super Kings (IPL)"}
-    ),
-    Document(
-        page_content="Towhid Hridoy:  A promising young batsman making a name in international cricket with powerful and composed innings in the middle order.",
-        metadata={"team": "Sylhet Strikers (BPL)"}
-    ),
-    Document(
-        page_content="Taskin Ahmed: A fast bowler with raw pace and energy. Taskin has improved tremendously over the years and is now a key bowler for Bangladesh.",
-        metadata={"team": "Dhaka Dominators (BPL)"}
-    )
+    Document(page_content="Shakib Al Hasan is a great cricketer."),
+    Document(page_content="Tamim Iqbal is known for aggressive batting."),
 ]
 
-# Step 2: Load the embedding model
-embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word_embeddings_levy_dependency")
+# ✅ Create the vectorstore using `from_documents()` first with empty list
+vectorstore = DocArrayInMemorySearch.from_documents([], embedding=embedding)
 
-# Step 3: Create the in-memory vector store
-vectorstore = DocArrayInMemorySearch.from_documents(docs, embedding)
+# ➕ Then add documents using add_documents()
+vectorstore.add_documents(docs)
 
-# Step 4: Perform a similarity search
-query = "Who is a strong middle order batsman?"
+# 🔍 Perform a similarity search
+query = "Who is a famous cricketer?"
 results = vectorstore.similarity_search(query, k=2)
 
-# Step 5: Show results
-for res in results:
-    print("Matched Content:", res.page_content)
-    print("Team:", res.metadata.get('team', 'N/A'))
-    print("-" * 60)
+for doc in results:
+    print(doc.page_content)
