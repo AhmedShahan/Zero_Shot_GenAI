@@ -76,12 +76,32 @@ model=ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.9)
 # print(final_prompt)
 import time
 
+import time
+import sys
+
+import time
+import sys
+
+spinner = ['|', '/', '-', '\\']  # Spinner characters
+
 while True:
-    input_query=input("\nEnter your Query: ")
+    input_query = input("\nEnter your Query: ")
     final_prompt = few_shot_prompt.format(question=input_query)
+
+    # Spinner loading animation for 5 seconds
+    print("\nProcessing ", end="", flush=True)
+    start_time = time.time()
+    i = 0
+    while time.time() - start_time < 5:
+        print(f"\b{spinner[i % len(spinner)]}", end="", flush=True)
+        time.sleep(0.1)
+        i += 1
+
+    print("\bDone!\nGenerating response...\n", flush=True)
+
+    # Stream the response with typing effect
     response = model.stream(final_prompt)
-    # print(response)
     for token in response:
         for char in token.content:
             print(char, end="", flush=True)
-            time.sleep(0.05)  # Adjust delay per character
+            time.sleep(0.02)
