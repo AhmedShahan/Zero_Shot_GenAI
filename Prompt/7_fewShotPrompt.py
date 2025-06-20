@@ -68,12 +68,18 @@ few_shot_prompt = FewShotPromptTemplate(
 )
 
 # Example question
-question = "How old was Bill Gates when Google was founded?"
+question = "How old was Mark Zuckerberg when he owned Meta?"
 model=ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.9)
 
-# Generate the final prompt
-final_prompt = few_shot_prompt.format(question=question)
 # print(final_prompt)
+import time
 
-response = model.predict(final_prompt)
-print(response)
+while True:
+    input_query=input("Enter your Query: ")
+    final_prompt = few_shot_prompt.format(question=input_query)
+    response = model.stream(final_prompt)
+    # print(response)
+    for token in response:
+        for char in token.content:
+            print(char, end="", flush=True)
+            time.sleep(0.05)  # Adjust delay per character
