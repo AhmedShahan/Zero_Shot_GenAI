@@ -75,7 +75,7 @@ model=ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.9)
 import time
 
 while True:
-    input_query=input("Enter your Query: ")
+    input_query=input("\nEnter your Query: ")
     final_prompt = few_shot_prompt.format(question=input_query)
     response = model.stream(final_prompt)
     # print(response)
