@@ -1,5 +1,7 @@
 from langchain_core.prompts import PromptTemplate, FewShotPromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
+load_dotenv()
 # Define examples for the few-shot prompt
 examples = [
     {
