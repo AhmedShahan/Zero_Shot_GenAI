@@ -17,9 +17,17 @@ prompt=ChatPromptTemplate.from_messages(MessageExplain)
 chain=prompt | model
 
 
-query="Artificial Intelligence"
-response=chain.invoke({
-    "topic":query
-})
+# query="Artificial Intelligence"
+# Step 4: Batch of inputs
+multipleQueries = [
+    {"topic": "Artificial Intelligence"},
+    {"topic": "Block Chain"},
+    {"topic": "Agentic AI"},
+]
 
-print(response.content)
+# Step 5: Call batch
+responses = chain.batch(multipleQueries)
+
+# Step 6: Print results
+for i, r in enumerate(responses):
+    print(f"Response {i+1}:\n{r.content}\n")
