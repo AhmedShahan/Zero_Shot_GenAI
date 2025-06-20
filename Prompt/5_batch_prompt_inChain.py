@@ -26,7 +26,8 @@ multipleQueries = [
 ]
 
 # Step 5: Call batch
-responses = chain.batch(multipleQueries)
+responses = chain.batch(multipleQueries,
+                        config={"max_concurrency": 3})
 
 # Step 6: Print results
 for i, r in enumerate(responses):
