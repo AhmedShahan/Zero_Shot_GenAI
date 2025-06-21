@@ -5,21 +5,20 @@
 # results = reddit_search.invoke(query)
 # print("Results:", results)
 
-
-
 '''
-pip install stackapi
+pip install pyowm
 '''
-from langchain_community.tools.stackexchange.tool import StackExchangeTool
-from langchain_community.utilities.stackexchange import StackExchangeAPIWrapper
 
-# ✅ Step 1: Create the API wrapper (no API key needed)
-api_wrapper = StackExchangeAPIWrapper(site="stackoverflow")
+from langchain_community.tools.openweathermap.tool import OpenWeatherMapQueryRun
+from langchain_community.utilities.openweathermap import OpenWeatherMapAPIWrapper
 
-# ✅ Step 2: Use the wrapper inside the tool
-stack_exchange = StackExchangeTool(api_wrapper=api_wrapper)
+weather_tool = OpenWeatherMapQueryRun(
+    api_wrapper=OpenWeatherMapAPIWrapper(
+        openweathermap_api_key="0f182427f045e4a0ba977faced890dbc",  # Demo API key
+        # openweathermap_base_url="http://api.openweathermap.org/data/2.5/",
+        # openweathermap_language="en",
+    )
+)
 
-# ✅ Step 3: Run your query
-result = stack_exchange.run("python error handling")
-
-print(result)
+result = weather_tool.invoke("What is the weather in New York City?")
+print("Weather Information:", result)
