@@ -2,10 +2,12 @@
 pip install arxiv
 '''
 
-from langchain_community.retrievers import ArxivRetriever
+from langchain.retrievers import ArxivRetriever
 
 retriever=ArxivRetriever(
-    top_k_results=10,
+    top_k_results=2,
+    get_full_documents=True,
+    load_all_available_meta=True,
 
 )
 
