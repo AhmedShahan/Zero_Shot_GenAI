@@ -20,5 +20,5 @@ weather_tool = OpenWeatherMapQueryRun(
     )
 )
 
-result = weather_tool.invoke("What is the weather in New York City?")
+result = weather_tool.invoke("What is the weather in New York, US City?")
 print("Weather Information:", result)
