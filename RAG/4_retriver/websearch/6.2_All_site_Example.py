@@ -1,0 +1,83 @@
+from langchain_community.tools.stackexchange.tool import StackExchangeTool
+from langchain_community.utilities.stackexchange import StackExchangeAPIWrapper
+
+# Stack Overflow
+wrapper = StackExchangeAPIWrapper(site="stackoverflow")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("python list comprehension")
+print("Stack Overflow Result:", result)
+# Server Fault
+wrapper = StackExchangeAPIWrapper(site="serverfault")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("nginx configuration for reverse proxy")
+print("Server Fault Result:", result)
+# Super User
+wrapper = StackExchangeAPIWrapper(site="superuser")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how to speed up Windows 10 boot time")
+print("Super User Result:", result)
+# Meta Stack Exchange
+wrapper = StackExchangeAPIWrapper(site="meta")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how are moderators selected")
+print("Meta Stack Exchange Result:", result)
+# Web Applications
+wrapper = StackExchangeAPIWrapper(site="webapps")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how to recover deleted emails in Gmail")
+print("Web Applications Result:", result)
+# Arqade (Gaming)
+wrapper = StackExchangeAPIWrapper(site="gaming")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how to beat the ender dragon in Minecraft")
+print("Arqade Result:", result)
+# Webmasters
+wrapper = StackExchangeAPIWrapper(site="webmasters")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how to improve SEO on my website")
+print("Webmasters Result:", result)
+# Seasoned Advice (Cooking)
+wrapper = StackExchangeAPIWrapper(site="cooking")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how to make perfect scrambled eggs")
+print("Seasoned Advice Result:", result)
+# Game Development
+wrapper = StackExchangeAPIWrapper(site="gamedev")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how to handle collision detection in Unity")
+print("Game Development Result:", result)
+# Photography
+wrapper = StackExchangeAPIWrapper(site="photo")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("best settings for night photography")
+print("Photography Result:", result)
+# Cross Validated (Stats/ML)
+wrapper = StackExchangeAPIWrapper(site="stats")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("difference between L1 and L2 regularization")
+print("Cross Validated Result:", result)
+# Mathematics
+wrapper = StackExchangeAPIWrapper(site="math")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("proof of Pythagorean theorem")
+print("Mathematics Result:", result)
+# Home Improvement
+wrapper = StackExchangeAPIWrapper(site="diy")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how to fix a leaky faucet")
+print("Home Improvement Result:", result)
+# Geographic Information Systems (GIS)
+wrapper = StackExchangeAPIWrapper(site="gis")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("what is a shapefile in GIS")
+print("Geographic Information Systems Result:", result)
+# TeX - LaTeX
+wrapper = StackExchangeAPIWrapper(site="tex")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how to align equations in LaTeX")
+print("TeX - LaTeX Result:", result)
+# Ask Ubuntu
+wrapper = StackExchangeAPIWrapper(site="askubuntu")
+stack_exchange = StackExchangeTool(api_wrapper=wrapper)
+result = stack_exchange.run("how to install .deb package in Ubuntu")
+print("Ask Ubuntu Result:", result)
