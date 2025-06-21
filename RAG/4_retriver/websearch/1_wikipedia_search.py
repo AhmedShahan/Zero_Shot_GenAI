@@ -2,20 +2,13 @@
 pip install wikipedia
 '''
 
-from langchain_community.retrievers import WikipediaRetriever
+from langchain_community.utilities.wikipedia import WikipediaAPIWrapper
 
-retriever=WikipediaRetriever(
-    top_k_results=10,
-    load_all_available_meta=True
-)
+wiki = WikipediaAPIWrapper(top_k_results=10, lang="en")
 
-query="Who is the CEO of Meta?"
+query = "Who is the CEO of Meta?"
+results = wiki.run(query)
 
-docs=retriever.invoke(query)
+print("Results:\n", results)
 
-# print(docs)
-for doc in docs:
-    print("Document: ",doc.page_content)
-    print("Metadata",doc.metadata)
-    print("*"*50)
 
