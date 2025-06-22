@@ -31,6 +31,11 @@ print("Players:", len(players_store.get()["documents"]))
 print("Scientists:", len(scientists_store.get()["documents"]))
 
 
+
+#### Query
+query=players_store.similarity_search("Who is Sakib Al Hasan", k=2)
+print(query)
+
 # Query within players
 query_vec = embedding.embed_query("fast bowler from Bangladesh")
 results = players_store.similarity_search_by_vector(query_vec, k=3)
