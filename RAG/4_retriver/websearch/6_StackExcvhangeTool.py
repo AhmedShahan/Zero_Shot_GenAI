@@ -3,15 +3,21 @@ pip install stackapi
 '''
 from langchain_community.tools.stackexchange.tool import StackExchangeTool
 from langchain_community.utilities.stackexchange import StackExchangeAPIWrapper
+from langchain_community.tools import StackExchangeTool
 
-# ✅ Step 1: Create the API wrapper (no API key needed)
-api_wrapper = StackExchangeAPIWrapper(site="datascience")
 
-# ✅ Step 2: Use the wrapper inside the tool
-stack_exchange = StackExchangeTool(api_wrapper=api_wrapper)
+retriever=StackExchangeTool(
+    api_wrapper=StackExchangeAPIWrapper(site="datascience")
+)
+
+# # ✅ Step 1: Create the API wrapper (no API key needed)
+# api_wrapper = StackExchangeAPIWrapper(site="datascience")
+
+# # ✅ Step 2: Use the wrapper inside the tool
+# stack_exchange = StackExchangeTool(api_wrapper=api_wrapper)
 
 # ✅ Step 3: Run your query
-result = stack_exchange.run("python error handling")
+result = retriever.invoke("python error handling")
 
 print(result)
 
