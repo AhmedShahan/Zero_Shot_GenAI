@@ -2,6 +2,7 @@ from langchain.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.schema import Document
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_cohere import ChatCohere
 embedding = HuggingFaceEmbeddings(
     model_name="sentence-transformers/average_word_embeddings_levy_dependency"
 )
@@ -30,13 +31,25 @@ query = "How to improve energy levels and maintain balance?"
 
 from langchain.retrievers import MultiQueryRetriever
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
-    temperature=0.9
+from langchain.prompts import PromptTemplate
+# Create a custom prompt for generating queries focused on health and wellness
+QUERY_PROMPT = PromptTemplate(
+    input_variables=["question"],
+    template="""You are an AI language model assistant. Your task is to generate 3 
+different versions of the given user question to retrieve relevant documents from a health and wellness database.
+Focus on personal health, fitness, nutrition, mental wellness, and lifestyle topics.
+Provide these alternative questions separated by newlines.
+Original question: {question}""",
 )
+
+# llm = ChatCohere(model="command-r-plus")
+llm=ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash",
+    temperature=0.5)
 retriver=MultiQueryRetriever.from_llm(
     retriever=VectorStore.as_retriever(search_kwargs={"k":3}),
-    llm=llm
+    llm=llm,
+    prompt=QUERY_PROMPT
 )
 
 result=retriver.invoke(query)
