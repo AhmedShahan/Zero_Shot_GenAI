@@ -1,8 +1,10 @@
 from langchain.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.schema import Document
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAI
 from langchain_cohere import ChatCohere
+from langchain_ollama import ChatOllama, OllamaLLM
+from langchain.prompts import ChatPromptTemplate
 embedding = HuggingFaceEmbeddings(
     model_name="sentence-transformers/average_word_embeddings_levy_dependency"
 )
@@ -32,20 +34,26 @@ query = "How to improve energy levels and maintain balance?"
 from langchain.retrievers import MultiQueryRetriever
 
 from langchain.prompts import PromptTemplate
-# Create a custom prompt for generating queries focused on health and wellness
-QUERY_PROMPT = PromptTemplate(
-    input_variables=["question"],
-    template="""You are an AI language model assistant. Your task is to generate 3 
-different versions of the given user question to retrieve relevant documents from a health and wellness database.
-Focus on personal health, fitness, nutrition, mental wellness, and lifestyle topics.
-Provide these alternative questions separated by newlines.
-Original question: {question}""",
-)
 
-# llm = ChatCohere(model="command-r-plus")
-llm=ChatGoogleGenerativeAI(
+
+HealthPrompt = [
+    (
+        "system", 
+        "You are an expert assistant that specializes in health and wellness. Your task is to take the user's query and break it down into 3–5 sub-questions that are only related to human health, physical energy, mental clarity, fitness, hydration, nutrition, and emotional balance. Avoid generating sub-questions about topics like solar energy, technology, or programming."
+    ),
+    (
+        "human", 
+        "User Query: {question}\n\nSub-questions. Please generate 3–5 sub-questions that are strictly related to health and wellness, focusing on human energy levels, physical fitness, mental clarity, hydration, nutrition, and emotional balance. Do not include any questions about solar energy, technology, or programming."
+    ),
+]
+
+QUERY_PROMPT =  ChatPromptTemplate.from_messages(HealthPrompt)
+llm=GoogleGenerativeAI(
     model="gemini-1.5-flash",
     temperature=0.5)
+
+
+# llm=OllamaLLM(model="llama3.2:latest")
 retriver=MultiQueryRetriever.from_llm(
     retriever=VectorStore.as_retriever(search_kwargs={"k":3}),
     llm=llm,
