@@ -28,5 +28,11 @@ VectorStore=Chroma.from_documents(
 
 query = "How to improve energy levels and maintain balance?"
 
+print("Normal Similarity Search")
 result=VectorStore.similarity_search(query, k=2)
+print(result)
+print("*"*50)
+retriever=VectorStore.as_retriever(search_kwargs={"k":2})
+result=retriever.invoke(query)
+print("Retriever Query Result")
 print(result)
