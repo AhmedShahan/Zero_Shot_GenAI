@@ -32,7 +32,7 @@ print(f"Documents in vector store: {vector_store._collection.count()}")
 
 # Initialize LLM and retriever
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
-base_retriever = vector_store.as_retriever(search_kwargs={"k": 5})
+base_retriever = vector_store.as_retriever(search_kwargs={"k": 20})
 compressor = LLMChainExtractor.from_llm(llm)
 compression_retriever = ContextualCompressionRetriever(base_retriever=base_retriever, base_compressor=compressor)
 
@@ -48,6 +48,11 @@ MessageRag = [
      Answer the Question {question} ONLY based on the provided context {context}.
      Please make sure that all the content is available. 
      If the content is insufficient, just say "I don't have enough knowledge based on the document."
+     Please Provide Response  Based on this formate. 
+     Page Number: 3
+     Original Text:  Original Text: AI-Assisted Compliance Auditing
+     Use ClinicalBERT/mT5 for diagnosis structuring  
+     Build dataset of "spoken → structured note" samples
      ''')
 ]
 prompt = ChatPromptTemplate.from_messages(MessageRag)
