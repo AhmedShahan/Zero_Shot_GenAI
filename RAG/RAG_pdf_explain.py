@@ -54,7 +54,19 @@ compression_retriever = ContextualCompressionRetriever(
     base_compressor=compressor
 )
 
+
+
 query = "AI related Content"
-compressed_results = compression_retriever.invoke(query)
-for doc in  compressed_results:
-    print(doc)
+
+MessageRag=[
+    ('system','you are  an Smart Ai  RAG based assistent. Please  Answer the Query Based on the Question'),
+    ('human','''
+     Answer the Question {question} ONLY based on the provided context {context}.
+     Please make sure that all teh content are available. 
+     If the content is insufficient, just say I don't have  enough knowledge basedd on the document. 
+     ''')
+]
+
+# compressed_results = compression_retriever.invoke(query)
+
+
