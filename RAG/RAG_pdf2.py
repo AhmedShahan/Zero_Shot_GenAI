@@ -52,3 +52,31 @@ compression_retriever = ContextualCompressionRetriever(base_retriever=base_retri
 query = "Vector Store"
 context = compression_retriever.invoke(query)
 print(f"Retrieved {len(context)} documents")
+
+
+########### Augmentation #######
+MessageRag = [
+    ('system', 'You are a Smart AI RAG-based assistant. Please answer the query based on the question.'),
+    ('human', '''
+     Answer the Question {question} ONLY based on the provided context {context}.
+     Please make sure that all the content is available. 
+     If the content is insufficient, just say "I don't have enough knowledge based on the document."
+     Please Provide Response  Based on this formate. 
+     Page Number: 3
+     Original Text:  Original Text: AI-Assisted Compliance Auditing
+     Use ClinicalBERT/mT5 for diagnosis structuring  
+     Build dataset of "spoken → structured note" samples
+     ''')
+]
+from langchain.prompts import ChatPromptTemplate
+from  langchain_core.output_parsers import  StrOutputParser
+prompt = ChatPromptTemplate.from_messages(MessageRag)
+parser = StrOutputParser()
+chain = prompt | llm | parser
+
+# Invoke chain
+try:
+    result = chain.invoke({"question": query, "context": context})
+    print(f"Result: {result}")
+except Exception as e:
+    print(f"Error: {str(e)}")
