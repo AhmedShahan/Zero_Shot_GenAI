@@ -1,4 +1,4 @@
-path = "/home/shahanahmed/Zero_Shot_GenAI/RAG/documents/Electronic Medical Record (EMR) System_Task_Breakdown.pdf"
+path = "/home/shahanahmed/Downloads/Vector Store Recommendations.pdf"
 
 
 from langchain.document_loaders import UnstructuredPDFLoader
@@ -13,9 +13,9 @@ print(f"Loaded {total_page} pages from PDF")
 #     print(docs[i].page_content)
 #     print("*"*50)
 
-############## Text Split ###########
-from langchain.text_splitter import  CharacterTextSplitter
-splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100, separator=" ")
+############## Text Split 1###########
+from langchain.text_splitter import  RecursiveCharacterTextSplitter
+splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100, separators=" ")
 chunks=splitter.split_documents(docs)
 total_chunks=len(chunks)
 print(f"Total chunks {total_chunks}")
