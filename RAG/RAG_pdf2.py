@@ -36,3 +36,19 @@ vector_store = Chroma(embedding_function=embedding, collection_name="sample")
 # Add chunks to vector store
 vector_store.add_documents(chunks)
 print(f"Documents in vector store: {vector_store._collection.count()}")
+
+
+
+###########  Retriever ############
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.retrievers.document_compressors import LLMChainExtractor
+from langchain.retrievers import ContextualCompressionRetriever
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
+base_retriever = vector_store.as_retriever(search_kwargs={"k": 20})
+compressor = LLMChainExtractor.from_llm(llm)
+compression_retriever = ContextualCompressionRetriever(base_retriever=base_retriever, base_compressor=compressor)
+
+# Query and retrieve context
+query = "Vector Store"
+context = compression_retriever.invoke(query)
+print(f"Retrieved {len(context)} documents")
