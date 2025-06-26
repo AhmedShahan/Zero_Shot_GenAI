@@ -38,7 +38,6 @@ try:
 except TranscriptsDisabled:
     print("No captions available for this video.")
 
-
 # get the transcript
 # transcript=YouTubeTranscriptApi.get_transcript(video_id)
 # print(transcript)
@@ -58,14 +57,14 @@ from langchain_experimental.text_splitter import SemanticChunker
 #     breakpoint_threshold_amount=1
 # )
 # )
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-chunks = splitter.create_documents([transcript])
-import time 
-for doc in chunks:
-    print(doc.page_content)
-    print("*"*50)
-    time.sleep(2)
+# from langchain_text_splitters import RecursiveCharacterTextSplitter
+# splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+# chunks = splitter.create_documents([transcript])
+# import time 
+# for doc in chunks:
+#     print(doc.page_content)
+#     print("*"*50)
+#     time.sleep(2)
     
 # print("Total Length of  the Text: ",len(AllText))
 # print("Number fo Chunks: ",len(chunks))

@@ -26,7 +26,8 @@ print(f"Total chunks {total_chunks}")
 
 ############## Embedding ###########
 from langchain_huggingface import HuggingFaceEmbeddings
-embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/average_word_embeddings_levy_dependency")
+
 
 
 ############## Vector Store ###########
@@ -41,9 +42,11 @@ print(f"Documents in vector store: {vector_store._collection.count()}")
 
 ###########  Retriever ############
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_cohere import ChatCohere
 from langchain.retrievers.document_compressors import LLMChainExtractor
 from langchain.retrievers import ContextualCompressionRetriever
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
+# llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.9)
+llm = ChatCohere(model="command-r-plus")
 base_retriever = vector_store.as_retriever(search_kwargs={"k": 20})
 compressor = LLMChainExtractor.from_llm(llm)
 compression_retriever = ContextualCompressionRetriever(base_retriever=base_retriever, base_compressor=compressor)
