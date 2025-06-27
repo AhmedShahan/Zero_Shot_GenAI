@@ -22,3 +22,7 @@ result=structured_tool.invoke({
     "num2":20
     })
 print(result)
+
+print(structured_tool.name)
+print(structured_tool.description)
+print(structured_tool.args)
