@@ -6,3 +6,7 @@ def multiply(num1:int, num2:int)-> int:
 
 result=multiply.invoke({"num1":5, "num2":10})
 print(result)
+
+print(multiply.name)
+print(multiply.description)
+print(multiply.args)
