@@ -24,12 +24,3 @@ class ArxiveSearchTool(BaseTool):
         )
         docs = retriever.invoke(query)
         return docs
-
-arxiveTool=ArxiveSearchTool()
-query="Give me paper of Shafin Rahman"
-result=arxiveTool.invoke({
-    "query": query,
-    "k": 10
-})
-
-print(result)
