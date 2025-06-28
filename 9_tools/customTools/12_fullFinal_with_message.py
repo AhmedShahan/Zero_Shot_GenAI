@@ -29,6 +29,13 @@ def Tool_Call(tool):
         content=result.content
         print("Paper Title: ",content["Title"])
 
+    elif tool['name']=="duckduckgo_results_json":
+        result=duckduckgo.invoke(tool)
+        print(result.content)
+
+    elif tool['name']=="multiply":
+        result=multiply.invoke(tool)
+        print(result.content)
 
 Message=[
     ('system','You are and Advance AI for retriever and answer the questions.'),
