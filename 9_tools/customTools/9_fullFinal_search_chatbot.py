@@ -10,6 +10,21 @@ def multiply(a:int, b:int)->int:
     """Multiplication of two integer number"""
     return a*b
 
+
+@tool
+def ArxiveTool(query: str, k: int, full_document: bool = False, load_all_meta: bool = False) -> list:
+    """Fetch Document from Arxiv using Arxiv Retriever"""
+    from langchain.retrievers import ArxivRetriever
+
+    retriever = ArxivRetriever(
+        top_k_results=k,
+        get_full_documents=full_document,
+        load_all_available_meta=load_all_meta,
+    )
+    docs = retriever.invoke(query)
+    return docs
+
+
 arxive_tool = ArxivRetriever()
 duckduckgo=DuckDuckGoSearchResults()
 
