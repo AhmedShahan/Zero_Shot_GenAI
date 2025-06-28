@@ -13,9 +13,14 @@ llm_with_tool=llm.bind_tools([multiply])
 
 result=llm_with_tool.invoke("Multiply by 10 with 3")
 print("Content: ",result.content)
-tool_call=result.tool_calls[0]
-print("Tool Calls: ",tool_call)
+tool=result.tool_calls[0]
+print("Tool Calls: ",tool)
+print("Tool Argument",tool['args'])
 
-# result=multiply.invoke(tool_call['args'])
-result=multiply.invoke(tool_call)
-print(result.content)
+result=multiply.invoke(tool['args'])
+print("Tool Argumet Exeecution: ",result)
+
+result2=multiply.invoke(tool)
+print("Tool Execution",result2)
+# result=multiply.invoke(tool_call)
+# print(result.content)
