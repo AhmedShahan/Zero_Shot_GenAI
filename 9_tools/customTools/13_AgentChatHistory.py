@@ -32,15 +32,15 @@ def Tool_Call(tool):
         result = arxive_tool.invoke(tool)
         content = result.content
         print("Paper Title:", content["Title"])
-        chat_history.append(ToolMessage(name="ArxiveTool", content=str(content["Title"])))
+        chat_history.append(ToolMessage(str(result)))
     elif tool['name'] == "duckduckgo_results_json":
         result = duckduckgo.invoke(tool)
         print(result.content)
-        chat_history.append(ToolMessage(name="duckduckgo_results_json", content=str(result.content)))
+        chat_history.append(ToolMessage(str(result)))
     elif tool['name'] == "multiply":
         result = multiply.invoke(tool)
         print(result.content)
-        chat_history.append(ToolMessage(name="multiply", content=str(result.content)))
+        chat_history.append(ToolMessage(str(result)))
 
 # Prompt template
 Message = [
@@ -78,7 +78,7 @@ while True:
         print("No tool used or tool failed, fallback to normal LLM response.")
         result = llm.invoke(query)
         print(result.content)
-        chat_history.append(AIMessage(content=result.content))
+        chat_history.append(AIMessage(str(result)))
 
 # Print chat history
 print("\n\nChat History")
