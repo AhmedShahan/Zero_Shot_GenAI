@@ -1,5 +1,5 @@
-from langchain_community.tools  import  DuckDuckGoSearchRun
-search_tool=DuckDuckGoSearchRun()
+from langchain_community.tools  import  DuckDuckGoSearchRun, TavilySearchResults
+search_tool=TavilySearchResults()
 # print(search_tool.invoke("Recent ai post"))
 
 from dotenv import load_dotenv
