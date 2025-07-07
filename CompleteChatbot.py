@@ -4,6 +4,10 @@ load_dotenv()
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import HumanMessage, AIMessage
+import streamlit as st
+
+st.set_page_config(page_title="Full Chatbot",layout="wide")
+st.title("AHMED's PERSONAL CHATBOT")
 
 llm=ChatGoogleGenerativeAI(
     model='gemini-1.5-flash',
@@ -12,13 +16,11 @@ llm=ChatGoogleGenerativeAI(
 parser=StrOutputParser()
 chain= llm| parser
 chat_history=[]
-while True:
-    input_query=input("Enter your Query: ")
+
+input_query=st.chat_input("Enter Your query")
+if input_query:
+    
     chat_history.append(HumanMessage(input_query))
-    if input_query.lower() in ['quite','exit']:
-        print("Exiciting Chatbot. Good Bye")
-        break
-    else:
-        response=chain.invoke(chat_history)
-        print(response)
-        chat_history.append(AIMessage(response))
+    response=chain.invoke(chat_history)
+    st.write(response)
+    chat_history.append(AIMessage(response))
