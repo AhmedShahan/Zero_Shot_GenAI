@@ -23,9 +23,8 @@ if input_query:
     with st.chat_message("user"):
         st.write(input_query)
     chat_history.append(HumanMessage(input_query))
-    response=chain.invoke(chat_history)
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            response = chain.invoke(chat_history)
+            response=chain.invoke(chat_history)
             st.write(response)
-    chat_history.append(AIMessage(response))
+            chat_history.append(AIMessage(response))
