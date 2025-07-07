@@ -19,8 +19,13 @@ chat_history=[]
 
 input_query=st.chat_input("Enter Your query")
 if input_query:
-    
+    # Show user's message
+    with st.chat_message("user"):
+        st.write(input_query)
     chat_history.append(HumanMessage(input_query))
     response=chain.invoke(chat_history)
-    st.write(response)
+    with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            response = chain.invoke(chat_history)
+            st.write(response)
     chat_history.append(AIMessage(response))
