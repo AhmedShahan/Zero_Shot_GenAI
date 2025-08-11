@@ -38,8 +38,10 @@ if input_query:
     # Append bot response to chat history
     st.session_state.chat_history.append(AIMessage(response))
 
-# Optionally, show full chat history on page load:
+
+# Show full chat history from the beginning
 for message in st.session_state.chat_history:
     role = "user" if isinstance(message, HumanMessage) else "assistant"
     with st.chat_message(role):
         st.write(message.content)
+

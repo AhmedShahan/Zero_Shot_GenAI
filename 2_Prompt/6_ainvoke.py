@@ -13,7 +13,7 @@ chain = prompt | model
 
 # Step 3: Define async function to call ainvoke
 async def main():
-    query = {"topic": "Artificial Intelligence"}  # Dictionary format is required
+    query = {"topic": "What was Elon Musk’s age when the iPhone was first released?"}  # Dictionary format is required
     response = await chain.ainvoke(query)
     print(response.content)  # For ChatOpenAI/Chat model
     # print(response)        # For non-chat models
