@@ -12,8 +12,10 @@ llm = ChatGoogleGenerativeAI(
 )
 
 # Ask a question
-response = llm.stream("Write a short story about a cat in a futuristic city.")
-# print(response)
+response = llm.invoke("Write a short story about a cat in a futuristic city.")
+# Stream response
+# for chunk in llm.stream("Write a short story about a cat in a futuristic city."):
+#     print(chunk.content, end="", flush=True)
 
 import time
 # Streaming Output word by word
@@ -21,7 +23,7 @@ import time
 #     print(token.content, end="", flush=True)
 #     time.sleep(0.1)
 
-for token in response:
-    for char in token.content:
+for token in response.content:
+    for char in token:
         print(char, end="", flush=True)
         time.sleep(0.05)  # Adjust delay per character
