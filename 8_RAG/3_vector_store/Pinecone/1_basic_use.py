@@ -28,12 +28,25 @@ docs_PK = [
     Document(page_content="Shaheen Afridi is a left-arm fast bowler known for his deadly swing.", metadata={"team": "Pakistan"})
 ]
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-vectors = []
-for i, doc in enumerate(docs):
+
+vectorsBD = []
+for i, doc in enumerate(docs_BD):
     emb = embedding.embed_query(doc.page_content)
-    vectors.append({
+    vectorsBD.append({
         "id": f"doc{i}",
         "values": emb,
         "metadata": doc.metadata
     })
-index.upsert(vectors=vectors)
+vectorsPK = []
+for i, doc in enumerate(docs_PK):
+    emb = embedding.embed_query(doc.page_content)
+    vectorsPK.append({
+        "id": f"doc{i}",
+        "values": emb,
+        "metadata": doc.metadata
+    })
+
+
+
+index.upsert(vectors=vectorsBD, namespace="BD")
+index.upsert(vectors=vectorsPK, namespace="PK")
