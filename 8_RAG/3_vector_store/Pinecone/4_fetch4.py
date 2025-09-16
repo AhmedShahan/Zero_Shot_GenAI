@@ -7,7 +7,7 @@ index = pc.Index("cricketer")
 
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-query = "Who is Shakib Al Hasan?"
+query = "Who are bowler"
 query_emb = embedding.embed_query(query)
 
 namespaces = ["BD", "PK"]

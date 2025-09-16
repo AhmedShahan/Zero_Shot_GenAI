@@ -18,7 +18,7 @@ index = pc.Index(index_name)
 
 # Documents
 docs_BD = [
-    Document(page_content="Shakib Al Hasan is one of the best all-rounders.", metadata={"team": "Bangladesh"}),
+    Document(page_content="Shakib Al Hasan is one of the best all-rounders and left bowler.", metadata={"team": "Bangladesh"}),
     Document(page_content="Litton Das is a stylish right-handed opener.", metadata={"team": "Bangladesh"})
 ]
 docs_PK = [
