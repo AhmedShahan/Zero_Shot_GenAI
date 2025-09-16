@@ -1,9 +1,14 @@
 from langchain.schema import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from pinecone import Pinecone, ServerlessSpec
-
+import os
+from pinecone import Pinecone
+from dotenv import load_dotenv
+# Load .env
+load_dotenv()
 # Initialize Pinecone
-pc = Pinecone(api_key="pcsk_6Z5c8A_6HxaqFxzHMHGbnxvWw5mQa43FETCrUfH9mgAqekUCRfZpzeesnsqHqfYUjUkMab")
+api_key = os.getenv("PINECONE_API_KEY")
+pc = Pinecone(api_key)
 
 index_name = "cricketer"
 if index_name not in pc.list_indexes().names():
