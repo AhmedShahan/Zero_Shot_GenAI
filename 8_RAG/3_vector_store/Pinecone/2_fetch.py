@@ -6,7 +6,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 pc = Pinecone(api_key="pcsk_6Z5c8A_6HxaqFxzHMHGbnxvWw5mQa43FETCrUfH9mgAqekUCRfZpzeesnsqHqfYUjUkMab")
 
 # 2. Connect to the index
-index_name = "cricketer"
+index_name = "cricketer" 
 index = pc.Index(index_name)
 
 # 3. Load embedding model
