@@ -11,7 +11,7 @@ from langchain_google_genai import GoogleGenerativeAI
 from dotenv import load_dotenv
 load_dotenv()
 
-model= GoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.5)
+model= GoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.5)
 while True:
     user_input= input("You: ")
     if user_input.lower() in ["exit", "quit"]:
