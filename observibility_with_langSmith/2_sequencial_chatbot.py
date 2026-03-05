@@ -1,6 +1,9 @@
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 load_dotenv()
+
+import os
+os.environ["LANGCHAIN_PROJECT"]="Seequencial APP"
 ## llm config
 llm = ChatGroq(
     model="llama-3.1-8b-instant",
@@ -27,9 +30,15 @@ parser=StrOutputParser()
 
 chain=prompt_report | llm | parser | prompt_summary | llm | parser
 
+config={
+    "tags":["llm-app", "sequencial_app", "report", "summary"],
+    "metadata":{"model":"llama-3.1-8b-instent", "temperature":0.7, "parser":"stroutputparser"}
+}
+
 input_text="Artificial Intelligence"
-response=chain.invoke({
-    "topic":input_text
-})
+response=chain.invoke(
+    {"topic":input_text},
+    config=config
+    )
 
 print(response)
