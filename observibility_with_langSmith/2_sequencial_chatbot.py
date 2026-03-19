@@ -31,6 +31,7 @@ parser=StrOutputParser()
 chain=prompt_report | llm | parser | prompt_summary | llm | parser
 
 config={
+    "run_name":"My sequencial App",
     "tags":["llm-app", "sequencial_app", "report", "summary"],
     "metadata":{"model":"llama-3.1-8b-instent", "temperature":0.7, "parser":"stroutputparser"}
 }
