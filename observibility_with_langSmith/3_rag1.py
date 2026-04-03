@@ -1,6 +1,21 @@
+import os
+os.environ["LANGCHAIN_PROJECT"]="RAG 1"
+
+config={
+    "run_name":"Basic RAG Version 1",
+    "tags":["llm-app", "rag", "naive rag", "QA"],
+    "metadata":{
+        "model":"llama-3.1-8b-instent", 
+        "temperature":0.7, 
+        "parser":"stroutputparser", 
+        "pdf_loader":"PyMuPDFLoader", 
+        "embedding":"sentence-transformers/average_word_embeddings_levy_dependency",
+        "vector_db":"FAISS",
+        "search_type": "similarity"
+        }
+}
+
 path = "/media/shahanahmed/c229a233-ed4f-4f67-9e09-5890e65956f7/Zero_Shot_GenAI/8_RAG/documents/AboutBangladesh.pdf"
-
-
 from langchain_community.document_loaders import PyMuPDFLoader
 loader=PyMuPDFLoader(path)
 docs = loader.load()
@@ -69,22 +84,18 @@ from langchain_core.prompts import ChatPromptTemplate
 prompt=ChatPromptTemplate.from_messages(MessageRag)
 parser = StrOutputParser()
 
-chain = (
-    {
-        "context": retriever | format_docs,
-        "question": RunnablePassthrough()
-    }
-    | prompt
-    | llm
-    | parser
-)
+chain = prompt | llm | parser
 
 ############## Query ###########
-query = "Tell me about the pdf"
 
+# while True:
+# query = input("Enter your Query: ")
+query="What is AI"
+context_docs = retriever.invoke(query)
+# context = format_docs(context_docs)
+print(f"Retrieved {len(context_docs)} documents")
 try:
-    result = chain.invoke(query)
+    result = chain.invoke({"question": query, "context": context_docs}, config=config)
     print(f"Result:\n{result}")
 except Exception as e:
     print(f"Error: {str(e)}")
- 
