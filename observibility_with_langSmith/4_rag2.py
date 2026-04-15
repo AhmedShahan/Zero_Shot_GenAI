@@ -1,8 +1,8 @@
 import os
-os.environ["LANGCHAIN_PROJECT"]="RAG 1"
+os.environ["LANGCHAIN_PROJECT"]="RAG 2"
 
 config={
-    "run_name":"Basic RAG Version 1",
+    "run_name":"Basic RAG Version 2",
     "tags":["llm-app", "rag", "naive rag", "QA"],
     "metadata":{
         "model":"llama-3.1-8b-instent", 
@@ -76,40 +76,40 @@ MessageRag = [
 ]
 
 ############## Chain ###########
-def format_docs(docs):
-    return "\n\n".join(doc.page_content for doc in docs)
+
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
+from langchain_core.runnables import RunnablePassthrough, RunnableParallel,  RunnableLambda
 from langchain_core.prompts import ChatPromptTemplate
 prompt=ChatPromptTemplate.from_messages(MessageRag)
 parser = StrOutputParser()
 
-chain = prompt | llm | parser
+
+parallel = RunnableParallel({
+    "context": retriever,
+    "question": RunnablePassthrough()
+})
+
+chain = parallel | prompt | llm | StrOutputParser()
 
 ############## Query ###########
 
 ### Static Query
 
-# query="What is AI"
-# context_docs = retriever.invoke(query)
-# # context = format_docs(context_docs)
-# print(f"Retrieved {len(context_docs)} documents")
-# try:
-#     result = chain.invoke({"question": query, "context": context_docs}, config=config)
-#     print(f"Result:\n{result}")
-# except Exception as e:
-#     print(f"Error: {str(e)}")
+query="What is AI"
+
+result = chain.invoke(query, config=config)
+print(result)
 
 
 
 ##### using while Loop
-while True:
-    query=input("You: ")
-    context_docs = retriever.invoke(query)
-    context = format_docs(context_docs)
-    print(f"Retrieved {len(context_docs)} documents")
-    try:
-        result = chain.invoke({"question": query, "context": context_docs}, config=config)
-        print(f"Result:\n{result}")
-    except Exception as e:
-        print(f"Error: {str(e)}")
+# while True:
+#     query=input("You: ")
+#     context_docs = retriever.invoke(query)
+#     context = format_docs(context_docs)
+#     print(f"Retrieved {len(context_docs)} documents")
+#     try:
+#         result = chain.invoke({"question": query, "context": context_docs}, config=config)
+#         print(f"Result:\n{result}")
+#     except Exception as e:
+#         print(f"Error: {str(e)}")
