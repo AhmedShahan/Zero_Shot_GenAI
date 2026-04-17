@@ -47,7 +47,7 @@ def split_text(docs, chunk_size=1000, chunk_overlap=100):
 
 
 ############## Embedding ###########
-@traceable(name="Split Text")
+@traceable(name="Embedding")
 
 def embedd(model_name="sentence-transformers/average_word_embeddings_levy_dependency"):
     from langchain_huggingface import HuggingFaceEmbeddings
