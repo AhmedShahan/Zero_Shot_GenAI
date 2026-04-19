@@ -142,21 +142,18 @@ chain = parallel | prompt | llm | StrOutputParser()
 
 ### Static Query
 
-query="What is AI"
+# query="What is AI"
 
-result = chain.invoke(query, config=config)
-print(result)
+# result = chain.invoke(query, config=config)
+# print(result)
 
 
 
-##### using while Loop
-# while True:
-#     query=input("You: ")
-#     context_docs = retriever.invoke(query)
-#     context = format_docs(context_docs)
-#     print(f"Retrieved {len(context_docs)} documents")
-#     try:
-#         result = chain.invoke({"question": query, "context": context_docs}, config=config)
-#         print(f"Result:\n{result}")
-#     except Exception as e:
-#         print(f"Error: {str(e)}")
+#### using while Loop
+while True:
+    query=input("You: ")
+    try:
+        result = chain.invoke(query, config=config)
+        print(f"Result:\n{result}")
+    except Exception as e:
+        print(f"Error: {str(e)}")
