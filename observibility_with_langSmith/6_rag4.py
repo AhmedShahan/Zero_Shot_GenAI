@@ -2,10 +2,10 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 
-os.environ["LANGCHAIN_PROJECT"]="All Tracable RAG"
+os.environ["LANGCHAIN_PROJECT"]="All Tracable RAG 3"
 from langsmith import traceable
 config={
-    "run_name":"Basic RAG Version 2",
+    "run_name":"Basic RAG Version 3",
     "tags":["llm-app", "rag", "naive rag", "QA"],
     "metadata":{
         "model":"llama-3.1-8b-instent", 
@@ -96,12 +96,6 @@ def set_pipeline(pdf_path:str):
     return vs
 
 
-###########  Retriever ############
-
-vectorStore=set_pipeline(pdf_path=path)
-retriever = vectorStore.as_retriever(search_type="similarity", search_kwargs={"k": 4})
-
-
 
 ########### Augmentation #######
 
@@ -129,14 +123,13 @@ from langchain_core.runnables import RunnablePassthrough, RunnableParallel,  Run
 from langchain_core.prompts import ChatPromptTemplate
 prompt=ChatPromptTemplate.from_messages(MessageRag)
 parser = StrOutputParser()
-
+vectorStore = set_pipeline(pdf_path=path)
+retriever = vectorStore.as_retriever(search_type="similarity", search_kwargs={"k": 4})
 
 parallel = RunnableParallel({
     "context": retriever,
     "question": RunnablePassthrough()
 })
-
-chain = parallel | prompt | llm | StrOutputParser()
 
 ############## Query ###########
 
@@ -150,10 +143,21 @@ chain = parallel | prompt | llm | StrOutputParser()
 
 
 #### using while Loop
-while True:
-    query=input("You: ")
-    try:
-        result = chain.invoke({"question": query}, config=config)
-        print(f"Result:\n{result}")
-    except Exception as e:
-        print(f"Error: {str(e)}")
+
+
+@traceable(name="Query Execution")
+def main():
+    chain = parallel | prompt | llm | StrOutputParser()
+
+    while True:
+        query = input("You: ")
+        try:
+            result = chain.invoke(query, config={
+            "run_name":query,
+            })
+            print(f"Result:\n{result}")
+        except Exception as e:
+            print(f"Error: {str(e)}")
+
+if __name__ == "__main__":
+    main()
