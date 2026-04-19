@@ -21,7 +21,11 @@ config={
 path = "/media/shahanahmed/c229a233-ed4f-4f67-9e09-5890e65956f7/Zero_Shot_GenAI/8_RAG/documents/AboutBangladesh.pdf"
 from langchain_community.document_loaders import PyMuPDFLoader
 
-@traceable(name="Load Pdf")
+@traceable(name="Load Pdf", tags=["pdf load","PyMuPDFLoader"], metadata={
+    "Input":"Pdf path",
+    "PDF Loader":"PyMuPDFLoader",
+    "Return":"Docs"
+})
 def load_pdf(path:str):
     loader=PyMuPDFLoader(path)
     docs = loader.load()
@@ -33,9 +37,14 @@ def load_pdf(path:str):
 
 ############## Text Split 1###########
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-@traceable(name="Split Text")
+@traceable(name="Split Text", metadata={
+    "Input":"Docs",
+    "chunk_size":1000,
+    "chunk_overlap":100,
+    "serator":"word By Word",
+    "Return":"Chunks"
+})
 def split_text(docs, chunk_size=1000, chunk_overlap=100):
-
     splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap, separators=" ")
     chunks=splitter.split_documents(docs)
     total_chunks=len(chunks)
@@ -47,8 +56,12 @@ def split_text(docs, chunk_size=1000, chunk_overlap=100):
 
 
 ############## Embedding ###########
-@traceable(name="Embedding")
-
+@traceable(name="Embedding", metadata={
+    "Input": "Nothing",
+    "Provider":"HuggingFace",
+    "model_name":"sentence-transformers/average_word_embeddings_levy_dependency",
+    "return": "Embeddiing model"
+})
 def embedd(model_name="sentence-transformers/average_word_embeddings_levy_dependency"):
     from langchain_huggingface import HuggingFaceEmbeddings
     embedding = HuggingFaceEmbeddings(model_name=model_name)
@@ -57,14 +70,23 @@ def embedd(model_name="sentence-transformers/average_word_embeddings_levy_depend
 
 
 ############## Vector Store ###########
-@traceable(name="Vector Store")
+@traceable(name="Vector Store",metadata={
+    "Input": "Chunk, embedding model",
+    "vector_store":"FAISS",
+    "Return":"Vector Store"
+
+})
 def vector_store(chunks, embedding):
     from langchain_community.vectorstores import FAISS
     vector_store = FAISS.from_documents(chunks, embedding)
 
     return vector_store
 
-@traceable(name="Setup Pipeline")
+@traceable(name="Setup Pipeline", metadata={
+    "Input":"pdf path",
+    "Process": "Load_df-> split->embed",
+    "return":"Vector Store"
+})
 def set_pipeline(pdf_path:str):
     docs=load_pdf(pdf_path)
     splits=split_text(docs)
