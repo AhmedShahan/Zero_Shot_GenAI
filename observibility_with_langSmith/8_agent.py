@@ -5,17 +5,17 @@ load_dotenv()
 
 ## ------------Tools ------------- ##
 ## Tavily Search Tools
-# from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_community.tools.tavily_search import TavilySearchResults
 
-# search_tool = TavilySearchResults(
-#     max_results=5,          # Number of results to return
-#     search_depth="advanced" # "basic" or "advanced"
-# )
+search_tool = TavilySearchResults(
+    max_results=5,          # Number of results to return
+    search_depth="advanced" # "basic" or "advanced"
+)
 
-# result = search_tool.invoke("What is LangChain?")
-# print(result)
+result = search_tool.invoke("What is LangChain?")
+print(result)
 
-import os
+# import os
 ### Weather API
 # def get_weather_data(city: str) -> dict:
 #     geo = requests.get(
@@ -33,25 +33,34 @@ import os
 
 # print(get_weather_data("Dhaka"))
 
+# from langchain_community.tools.tavily_search import TavilySearchResults
+# tavily_tool = TavilySearchResults(
+#     max_results=5,
+#     search_depth="advanced"
+# )
+
+# # Add to your tools list
+# tools = [tavily_tool, ArxivTool, get_weather_data]
 
 
-@tool
-def ArxiveTool(query: str, k: int, full_document: bool = False, load_all_meta: bool = False) -> list:
-    """Fetch Document from Arxiv using Arxiv Retriever"""
-    from langchain_community.retrievers import ArxivRetriever
 
-    retriever = ArxivRetriever(
-        top_k_results=k,
-        get_full_documents=full_document,
-        load_all_available_meta=load_all_meta,
-    )
-    docs = retriever.invoke(query)
-    return docs
+# @tool
+# def ArxiveTool(query: str, k: int, full_document: bool = False, load_all_meta: bool = False) -> list:
+#     """Fetch Document from Arxiv using Arxiv Retriever"""
+#     from langchain_community.retrievers import ArxivRetriever
+
+#     retriever = ArxivRetriever(
+#         top_k_results=k,
+#         get_full_documents=full_document,
+#         load_all_available_meta=load_all_meta,
+#     )
+#     docs = retriever.invoke(query)
+#     return docs
 
 
-query = "au:Shafin_Rahman"  # 👈 this is the fix
-results=ArxiveTool.invoke({
-    "query": query,
-    "k":3
-})
-print(results)
+# query = "au:Shafin_Rahman"  # 👈 this is the fix
+# results=ArxiveTool.invoke({
+#     "query": query,
+#     "k":3
+# })
+# print(results)
