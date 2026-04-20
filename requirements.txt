@@ -11,3 +11,4 @@ chromadb
 faiss-gpu
 faiss-cpu
 tavily-python
+arxiv
