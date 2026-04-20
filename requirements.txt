@@ -10,3 +10,4 @@ langchain-community
 chromadb
 faiss-gpu
 faiss-cpu
+tavily-python
