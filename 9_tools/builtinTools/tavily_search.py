@@ -8,9 +8,6 @@ load_dotenv()
 search_tool = TavilySearchResults(
     max_results=3,
     search_depth="advanced",
-    include_answer=True,
-    include_raw_content=False,
-    include_images=False,
     include_domains=["github.com", "docs.python.org"],
     exclude_domains=["pinterest.com"]
 )
