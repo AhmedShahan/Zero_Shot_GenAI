@@ -10,6 +10,7 @@ from langchain_classic.agents import AgentExecutor, create_react_agent
 from langchain_classic.prompts import PromptTemplate
 
 load_dotenv()
+os.environ["LANGCHAIN_PROJECT"]="ReAct Agent Tracing"
 
 # --- Tools ---
 tavily_tool = TavilySearch(max_results=3, search_depth="advanced", include_answer=True)
@@ -43,26 +44,31 @@ llm = ChatGroq(
 )
 
 # --- ReAct Prompt ---
-prompt = PromptTemplate.from_template("""Answer the following questions as best you can. You have access to the following tools:
+# prompt = PromptTemplate.from_template("""Answer the following questions as best you can. You have access to the following tools:
 
-{tools}
+# {tools}
 
-Use the following format:
+# Use the following format:
 
-Question: the input question you must answer
-Thought: you should always think about what to do
-Action: the action to take, should be one of [{tool_names}]
-Action Input: the input to the action
-Observation: the result of the action
-... (this Thought/Action/Action Input/Observation can repeat N times)
-Thought: I now know the final answer
-Final Answer: the final answer to the original input question
+# Question: the input question you must answer
+# Thought: you should always think about what to do
+# Action: the action to take, should be one of [{tool_names}]
+# Action Input: the input to the action
+# Observation: the result of the action
+# ... (this Thought/Action/Action Input/Observation can repeat N times)
+# Thought: I now know the final answer
+# Final Answer: the final answer to the original input question
 
-Begin!
+# Begin!
 
-Question: {input}
-Thought:{agent_scratchpad}""")
+# Question: {input}
+# Thought:{agent_scratchpad}""")
 
+from langsmith import Client
+client = Client()
+prompt = client.pull_prompt(
+    "llm-react/react",
+)
 # --- Agent ---
 agent = create_react_agent(llm=llm, tools=tools, prompt=prompt)
 
@@ -77,6 +83,6 @@ agent_executor = AgentExecutor(
 
 # --- Run ---
 result = agent_executor.invoke({
-    "input": "Who wrote Attention Is All You Need and what is the weather at their city right now?"
+    "input": "What is the weather in the city where the Attention Is All You Need paper was published and what are the latest news about that paper?"
 })
 print("\nFinal Answer:", result["output"])
