@@ -1,13 +1,13 @@
+import os
 from dotenv import load_dotenv
-from langchain_core.tools import tool
-from langchain_tavily import TavilySearch
+import pyowm
+from langchain_community.tools import TavilySearchResults as TavilySearch
 from langchain_community.utilities import ArxivAPIWrapper
 from langchain_community.tools import ArxivQueryRun
-from langgraph.prebuilt import create_react_agent
+from langchain_core.tools import tool
 from langchain_groq import ChatGroq
-from langsmith import Client
-import pyowm
-import os
+from langchain_classic.agents import AgentExecutor, create_react_agent
+from langchain_classic.prompts import PromptTemplate
 
 load_dotenv()
 
@@ -25,11 +25,11 @@ def get_weather(city: str) -> str:
     temp = weather.temperature("celsius")
     return f"Temperature: {temp['temp']}°C, Feels like: {temp['feels_like']}°C"
 
-# ✅ Fixed: limit max_results to avoid 429
 arxiv_wrapper = ArxivAPIWrapper(
     top_k_results=3,
     doc_content_chars_max=1000,
-    arxiv_search_kwargs={"max_results": 3}
+    arxiv_search_kwargs={"max_results": 3},
+    arxiv_exceptions_on_failure=False  # ← don't crash on errors
 )
 arxiv_tool = ArxivQueryRun(api_wrapper=arxiv_wrapper)
 
@@ -38,17 +38,45 @@ tools = [tavily_tool, get_weather, arxiv_tool]
 # --- LLM ---
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
-    temperature=0,  # use 0 for tool calling, not 0.2
-    model_kwargs={"parallel_tool_calls": False}  # ✅ fixes malformed JSON
+    temperature=0,
+    model_kwargs={"parallel_tool_calls": False}
 )
 
-# --- Prompt & Agent ---
-client = Client()
-prompt = client.pull_prompt("react-agent-executor/react-agent-executor")
+# --- ReAct Prompt ---
+prompt = PromptTemplate.from_template("""Answer the following questions as best you can. You have access to the following tools:
 
-agent_executor = create_react_agent(llm, tools)
+{tools}
 
+Use the following format:
+
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
+
+Begin!
+
+Question: {input}
+Thought:{agent_scratchpad}""")
+
+# --- Agent ---
+agent = create_react_agent(llm=llm, tools=tools, prompt=prompt)
+
+agent_executor = AgentExecutor(
+    agent=agent,
+    tools=tools,
+    verbose=True,
+    handle_parsing_errors=True,
+    handle_tool_errors=True,   # ← add this
+    max_iterations=10
+)
+
+# --- Run ---
 result = agent_executor.invoke({
-    "messages": [("human", "Current Temperature of leaving Shahan Ahmed from North South University")]
+    "input": "Who wrote Attention Is All You Need and what is the weather at their city right now?"
 })
-print(result["messages"][-1].content)
+print("\nFinal Answer:", result["output"])
